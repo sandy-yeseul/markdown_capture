@@ -13,13 +13,16 @@ async function getList(){
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
         await page.goto(url);
-        const [getXpath] = await page.$x(sampleTagXpath);
+        const [getXpath] = await page.$x(markdownTagXpath);
         await getXpath.click();
-        await page.waitForXPath(resultHeaderXpath);
+        await page.waitForXPath(resultDivXpath);
         
-        const [resultXpath] = await page.$x(resultHeaderXpath);
-        const result = await page.evaluate(name => name.innerText, resultXpath);
-        console.log(result);
+        
+        const [resultXpath] = await page.$x(resultDivXpath);
+        const results = await resultXpath.getProperties();
+        console.log(results.size);
+        // const result = await page.evaluate(name => name.innerText, resultXpath);
+        // console.log(result);
 
         await browser.close();
 
