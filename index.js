@@ -28,6 +28,16 @@ async function getList(){
         const title = await page.evaluate(name => name.innerText, titleXpath);
         console.log(title)
          */
+
+        /** title xPath로 따오기.. 당연히 가능
+        const [titleXpath] = await page.$x('//*[@id="KeywordFinderRenewal"]/div[2]/div/section/ul/li[1]/div/div[2]/a');
+        const title = await page.evaluate(name => name.innerText, titleXpath);
+        console.log(title);
+        */
+
+        const titles = await page.$$eval('.RSGBookMetadata_Title', (els) => els.map(el => el.innerHTML));
+        console.log(typeof titles);
+        
         
         // const prices = await page.$$eval('.RSGBookMetadata_Price_CurrentPrice', span => span.length)
         // console.log(prices);
