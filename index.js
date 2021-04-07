@@ -20,83 +20,36 @@ async function getList(){
         const [getXpath] = await page.$x(sampleTagXpath);
         await getXpath.click();
         await page.waitForXPath(ResultCountXpath);
-
-        /** 결과: 6000+건의 작품이 있습니다 잘 출력됨
-        // const [resultCounterX] = await page.$x(ResultCountXpath);
-        // const resultCounter = await page.evaluate(name => name.innerText, resultCounterX); 
-        // console.log(resultCounter);
-        */
-
-        /** 첫번째꺼 잘 나옴... 전부 다 이긴 하지만..
-        const [titleXpath] = await page.$x('/html/body/div[3]/div[1]/div/div/section/div[2]/div/section/ul/li[1]/div/div[2]');
-        const title = await page.evaluate(name => name.innerText, titleXpath);
-        console.log(title)
-         */
-
-        /** title xPath로 따오기.. 당연히 가능
-        const [titleXpath] = await page.$x('//*[@id="KeywordFinderRenewal"]/div[2]/div/section/ul/li[1]/div/div[2]/a');
-        const title = await page.evaluate(name => name.innerText, titleXpath);
-        console.log(title);
-        */
-
-        const titles = await page.$$eval(titleClassSelector, (titles) => titles.map(title => title.innerHTML)); // get title list only
-        
-        /** // get book from metadata by $eval
-        const book = await page.$eval(bookClassSelector, data=> 
-                data.querySelector('.RSGBookMetadata_Title').textContent 
-        + ' ' + data.querySelector('.RSGBookMetadata_Authors').textContent
-        + ' ' + data.querySelector('.RSGBookMetadata_Price_CurrentPrice').textContent
-        ); 
-        console.log(book)
-        */
          
         // ANCHOR get book list -> book contain title, author, price
         // STUB problems: 
-        // price has two option, one book price and set books price
-        // need books array to contain all books from different pages
-        // need to distinguish between title, author and price
+        // [ ] price has two option, one book price and set books price
+        // [ ] need books array to contain all books from different pages
+        // [v] need to distinguish between title, author and price
+        // [ ] one page -> tweet -> next page OR all books -> all tweet? 근데 트윗 리밋 안걸리려면 하나씩 올리는게 좋을듯
 
-        // const books = await page.$$eval(bookClassSelector, bookElems =>
-        //     bookElems.map(
-        //         bookElem => bookElem.querySelector('.RSGBookMetadata_Title').textContent 
-        //         + ' ' + bookElem.querySelector('.RSGBookMetadata_Authors').textContent
-        //         + ' ' + bookElem.querySelector('.RSGBookMetadata_Price_CurrentPrice').textContent
-        //     ));
 
         //books: returning book objects with title, author, price
-        const books = await page.$$eval(bookClassSelector, (bookElems) => {
-            return bookElems.map((bookElem)=>{
+        const books = await page.$$eval(bookClassSelector, (bookElems) => 
+            bookElems.map( (bookElem)=>{
+                const title = bookElem.querySelector('.RSGBookMetadata_Title').textContent;
+                const author = bookElem.querySelector('.RSGBookMetadata_Authors').textContent;
+                const price = bookElem.querySelector('ul.RSGBookMetadata_Price_Row').childElementCount > 1 
+                            ? bookElem.querySelector('li:nth-child(2) > span.RSGBookMetadata_Price_CurrentPrice').textContent
+                            : bookElem.querySelector('.RSGBookMetadata_Price_CurrentPrice').textContent;
                 const book = {
-                    title: bookElem.querySelector('.RSGBookMetadata_Title').textContent,
-                    author: bookElem.querySelector('.RSGBookMetadata_Authors').textContent,
-                    price: bookElem.querySelector('.RSGBookMetadata_Price_CurrentPrice').textContent
+                    title: title,
+                    author: author,
+                    price: price
                 }
                 return book;
             })
-        })
-        
-        // const books = 
-        //     await page.$$eval(bookClassSelector, booksElem => 
-        //     booksElem.map(bookElem => 
-        //     bookElem.querySelector(titleClassSelector).textContent
-        //     + bookElem.querySelector(authorClassSelector).textContent 
-        //     + bookElem.querySelector(priceClassSelector).textContent))
-        
-        // console.log
-        
-        // const prices = await page.$$eval('.RSGBookMetadata_Price_CurrentPrice', span => span.length)
-        // console.log(prices);
-        // const price = await page.$eval('.RSGBookMetadata_Price_CurrentPrice', el => el.innerHTML)
-        // console.log(price)
-        
-        // const [resultXpath] = await page.$x(resultDivXpath);
-        // const results = await resultXpath.getProperties();
-        // console.log(results.size);
-        // const result = await page.evaluate(name => name.innerText, resultXpath);
-        // console.log(result);
+        )
+        console.log(books);
 
         await browser.close();
 
+        
     }
     catch(err){
         throw new Error(err.message);
