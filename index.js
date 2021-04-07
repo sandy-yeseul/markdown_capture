@@ -56,14 +56,24 @@ async function getList(){
         // need books array to contain all books from different pages
         // need to distinguish between title, author and price
 
-        const books = await page.$$eval(bookClassSelector, bookElems =>
-            bookElems.map(
-                bookElem => bookElem.querySelector('.RSGBookMetadata_Title').textContent 
-                + ' ' + bookElem.querySelector('.RSGBookMetadata_Authors').textContent
-                + ' ' + bookElem.querySelector('.RSGBookMetadata_Price_CurrentPrice').textContent
-            ));
+        // const books = await page.$$eval(bookClassSelector, bookElems =>
+        //     bookElems.map(
+        //         bookElem => bookElem.querySelector('.RSGBookMetadata_Title').textContent 
+        //         + ' ' + bookElem.querySelector('.RSGBookMetadata_Authors').textContent
+        //         + ' ' + bookElem.querySelector('.RSGBookMetadata_Price_CurrentPrice').textContent
+        //     ));
 
-        console.log(books)
+        //books: returning book objects with title, author, price
+        const books = await page.$$eval(bookClassSelector, (bookElems) => {
+            return bookElems.map((bookElem)=>{
+                const book = {
+                    title: bookElem.querySelector('.RSGBookMetadata_Title').textContent,
+                    author: bookElem.querySelector('.RSGBookMetadata_Authors').textContent,
+                    price: bookElem.querySelector('.RSGBookMetadata_Price_CurrentPrice').textContent
+                }
+                return book;
+            })
+        })
         
         // const books = 
         //     await page.$$eval(bookClassSelector, booksElem => 
