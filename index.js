@@ -26,11 +26,44 @@ async function getList(){
         // ANCHOR get book list -> book contain title, author, price
         // STUB problems: 
         // [v] price has two option, one book price and set books price
-        // [ ] need books array to contain all books from different pages
+        // [ ] need to go to next page and loop it until it's done
         // [v] need to distinguish between title, author and price
         // [ ] one page -> tweet -> next page OR all books -> all tweet? 근데 트윗 리밋 안걸리려면 하나씩 올리는게 좋을듯
 
         //books: returning book objects with title, author, price
+        // const books = await page.$$eval(bookClassSelector, (bookElems) => 
+        // bookElems.map( (bookElem)=>{
+        //     const title = bookElem.querySelector('.RSGBookMetadata_Title').textContent;
+        //     const author = bookElem.querySelector('.RSGBookMetadata_Authors').textContent;
+        //     const price = bookElem.querySelector('ul.RSGBookMetadata_Price_Row').childElementCount > 1 
+        //                 ? bookElem.querySelector('li:nth-child(2) > span.RSGBookMetadata_Price_CurrentPrice').textContent
+        //                 : bookElem.querySelector('.RSGBookMetadata_Price_CurrentPrice').textContent;
+        //     const book = {
+        //         title: title,
+        //         author: author,
+        //         price: price
+        //     }
+        //     return book;
+        // }))
+
+        // bookList = [...bookList, ...books];
+
+        // go to next page
+
+        // check if next page available
+        
+        const nextIcon = await page.$('.Pagination_GoNextIcon');
+        const nextBtn = await nextIcon.$x('./div'); // parent node
+        console.log(nextBtn.length)
+
+        /**
+        while(await page.$('.Pagination_GoNextIcon')){
+
+        const nextIcon = await page.$('.Pagination_GoNextIcon');
+        const nextBtn = await nextIcon.$x('./a');
+
+        await page.waitForXPath(ResultCountXpath);
+
         const books = await page.$$eval(bookClassSelector, (bookElems) => 
         bookElems.map( (bookElem)=>{
             const title = bookElem.querySelector('.RSGBookMetadata_Title').textContent;
@@ -45,35 +78,16 @@ async function getList(){
             }
             return book;
         }))
-
         bookList = [...bookList, ...books];
-
-        // go to next page
-
-        await page.click('#KeywordFinderRenewal > div.ResultWrapper > div > nav > ul > a');
-        await page.waitForXPath(ResultCountXpath);
-
-        const books2 = await page.$$eval(bookClassSelector, (bookElems) => 
-        bookElems.map( (bookElem)=>{
-            const title = bookElem.querySelector('.RSGBookMetadata_Title').textContent;
-            const author = bookElem.querySelector('.RSGBookMetadata_Authors').textContent;
-            const price = bookElem.querySelector('ul.RSGBookMetadata_Price_Row').childElementCount > 1 
-                        ? bookElem.querySelector('li:nth-child(2) > span.RSGBookMetadata_Price_CurrentPrice').textContent
-                        : bookElem.querySelector('.RSGBookMetadata_Price_CurrentPrice').textContent;
-            const book = {
-                title: title,
-                author: author,
-                price: price
-            }
-            return book;
-        }))
-        bookList = [...bookList, ...books2];
         console.log(bookList);
+        }
+        console.log(bookList);
+        */
         
         await browser.close();
     }
     catch(err){
-        throw new Error(err.message);
+        console.log(err)
     }
 }
 getList();
