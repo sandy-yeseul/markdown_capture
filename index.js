@@ -13,16 +13,23 @@ async function getList(){
     const authorClassSelector= '.RSGBookMetadata_Authors';
     const priceClassSelector= '.RSGBookMetadata_Price_CurrentPrice';
 
+    const nextBtn           = `//*[@id="KeywordFinderRenewal"]/div[2]/div/nav/ul/a`;
+
     var bookList = [];
 
     try{
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
         await page.goto(url);
-        const [getXpath] = await page.$x(sampleTagXpath);
+        const [getXpath] = await page.$x(markdownTagXpath);
         await getXpath.click();
         await page.waitForXPath(ResultCountXpath);
-         
+
+        var getUrl = await page.url();
+        console.log(getUrl)
+
+        await page.waitForTimeout(1000);
+
         // ANCHOR get book list -> book contain title, author, price
         // STUB problems: 
         // [v] price has two option, one book price and set books price
@@ -47,14 +54,33 @@ async function getList(){
         // }))
 
         // bookList = [...bookList, ...books];
+        // console.log(bookList);
 
         // go to next page
 
+        const [nextBtnXpath] = await page.$x(nextBtn)
+        await nextBtnXpath.click();
+        await page.waitForXPath(ResultCountXpath);
+
+        getUrl = await page.url();
+        console.log(getUrl)
+
+        await page.waitForTimeout(1000);
+
+        const [nextBtnXpath2] = await page.$x(nextBtn)
+        await nextBtnXpath2.click();
+        await page.waitForXPath(ResultCountXpath);
+
+        getUrl = await page.url();
+        console.log(getUrl)
+
+        await page.waitForTimeout(1000);
+
         // check if next page available
         
-        const nextIcon = await page.$('.Pagination_GoNextIcon');
-        const nextBtn = await nextIcon.$x('./div'); // parent node
-        console.log(nextBtn.length)
+        // const nextIcon = await page.$('.Pagination_GoNextIcon');
+        // const nextBtn = await nextIcon.$x('./div'); // parent node
+        // console.log(nextBtn.length)
 
         /**
         while(await page.$('.Pagination_GoNextIcon')){
