@@ -38,22 +38,22 @@ async function getList(){
         // [ ] one page -> tweet -> next page OR all books -> all tweet? 근데 트윗 리밋 안걸리려면 하나씩 올리는게 좋을듯
 
         //books: returning book objects with title, author, price
-        // const books = await page.$$eval(bookClassSelector, (bookElems) => 
-        // bookElems.map( (bookElem)=>{
-        //     const title = bookElem.querySelector('.RSGBookMetadata_Title').textContent;
-        //     const author = bookElem.querySelector('.RSGBookMetadata_Authors').textContent;
-        //     const price = bookElem.querySelector('ul.RSGBookMetadata_Price_Row').childElementCount > 1 
-        //                 ? bookElem.querySelector('li:nth-child(2) > span.RSGBookMetadata_Price_CurrentPrice').textContent
-        //                 : bookElem.querySelector('.RSGBookMetadata_Price_CurrentPrice').textContent;
-        //     const book = {
-        //         title: title,
-        //         author: author,
-        //         price: price
-        //     }
-        //     return book;
-        // }))
+        const books = await page.$$eval(bookClassSelector, (bookElems) => 
+        bookElems.map( (bookElem)=>{
+            const title = bookElem.querySelector('.RSGBookMetadata_Title').textContent;
+            const author = bookElem.querySelector('.RSGBookMetadata_Authors').textContent;
+            const price = bookElem.querySelector('ul.RSGBookMetadata_Price_Row').childElementCount > 1 
+                        ? bookElem.querySelector('li:nth-child(2) > span.RSGBookMetadata_Price_CurrentPrice').textContent
+                        : bookElem.querySelector('.RSGBookMetadata_Price_CurrentPrice').textContent;
+            const book = {
+                title: title,
+                author: author,
+                price: price
+            }
+            return book;
+        }))
 
-        // bookList = [...bookList, ...books];
+        bookList = [...bookList, ...books];
         // console.log(bookList);
 
         // go to next page
@@ -67,14 +67,23 @@ async function getList(){
 
         await page.waitForTimeout(1000);
 
-        const [nextBtnXpath2] = await page.$x(nextBtn)
-        await nextBtnXpath2.click();
-        await page.waitForXPath(ResultCountXpath);
+         const books2 = await page.$$eval(bookClassSelector, (bookElems) => 
+        bookElems.map( (bookElem)=>{
+            const title = bookElem.querySelector('.RSGBookMetadata_Title').textContent;
+            const author = bookElem.querySelector('.RSGBookMetadata_Authors').textContent;
+            const price = bookElem.querySelector('ul.RSGBookMetadata_Price_Row').childElementCount > 1 
+                        ? bookElem.querySelector('li:nth-child(2) > span.RSGBookMetadata_Price_CurrentPrice').textContent
+                        : bookElem.querySelector('.RSGBookMetadata_Price_CurrentPrice').textContent;
+            const book = {
+                title: title,
+                author: author,
+                price: price
+            }
+            return book;
+        }))
 
-        getUrl = await page.url();
-        console.log(getUrl)
-
-        await page.waitForTimeout(1000);
+        bookList = [...bookList, ...books2];
+        console.log(bookList);
 
         // check if next page available
         
