@@ -13,8 +13,8 @@ async function getList(){
     const authorClassSelector= '.RSGBookMetadata_Authors';
     const priceClassSelector= '.RSGBookMetadata_Price_CurrentPrice';
 
-    const nextBtn           = `//*[@id="KeywordFinderRenewal"]/div[2]/div/nav/ul/a`;
-    const nextBtn2          = `//*[@id="KeywordFinderRenewal"]/div[2]/div/nav/ul/a[2]`;
+    // let nextBtn           = `//*[@id="KeywordFinderRenewal"]/div[2]/div/nav/ul/a`;
+    // const nextBtn2          = `//*[@id="KeywordFinderRenewal"]/div[2]/div/nav/ul/a[2]`;
 
     var bookList = [];
 
@@ -26,7 +26,46 @@ async function getList(){
         await getXpath.click();
         await page.waitForXPath(ResultCountXpath);
 
-        //ANCHOR get to search page
+
+        let isContinued = true;
+        let nextBtn = `//*[@id="KeywordFinderRenewal"]/div[2]/div/nav/ul/a`;
+        while (isContinued) {
+            const getUrl = await page.url(); 
+            console.log(getUrl)
+
+            //NOTE get Book
+            const books = await page.$$eval(bookClassSelector, (bookElems) => 
+                bookElems.map( (bookElem)=>{
+                    const title = bookElem.querySelector('.RSGBookMetadata_Title').textContent;
+                    const author = bookElem.querySelector('.RSGBookMetadata_Authors').textContent;
+                    const price = bookElem.querySelector('ul.RSGBookMetadata_Price_Row').childElementCount > 1 
+                                ? bookElem.querySelector('li:nth-child(2) > span.RSGBookMetadata_Price_CurrentPrice').textContent
+                                : bookElem.querySelector('.RSGBookMetadata_Price_CurrentPrice').textContent;
+                    const book = {
+                        title: title,
+                        author: author,
+                        price: price
+                    }
+                    return book;
+                }))
+
+            //NOTE add to book list
+            bookList = [...bookList, ...books];
+            
+            //NOTE go to Next page
+            const [nextBtnXpath] = await page.$x(nextBtn);
+            //NOTE check if available
+            if(nextBtnXpath === undefined) break;
+            await nextBtnXpath.click();
+            await page.waitForXPath(ResultCountXpath);
+
+            //NOTE set next btn again for 2nd page and +a
+            nextBtn = `//*[@id="KeywordFinderRenewal"]/div[2]/div/nav/ul/a[2]`;
+
+        }
+        
+
+        /** ANCHOR get to search page
 
         var getUrl = await page.url();
         console.log(getUrl)
@@ -122,7 +161,7 @@ async function getList(){
         let pageNumber = 1;
         while(isCotinued){
             if(pageNumber === 1){
-                console.log(pageNumber);
+                
             }else{
                 console.log(pageNumber);
                 isCotinued=false
