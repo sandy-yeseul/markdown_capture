@@ -14,6 +14,7 @@ async function getList(){
     const priceClassSelector= '.RSGBookMetadata_Price_CurrentPrice';
 
     const nextBtn           = `//*[@id="KeywordFinderRenewal"]/div[2]/div/nav/ul/a`;
+    const nextBtn2          = `//*[@id="KeywordFinderRenewal"]/div[2]/div/nav/ul/a[2]`;
 
     var bookList = [];
 
@@ -25,10 +26,12 @@ async function getList(){
         await getXpath.click();
         await page.waitForXPath(ResultCountXpath);
 
+        //ANCHOR get to search page
+
         var getUrl = await page.url();
         console.log(getUrl)
 
-        await page.waitForTimeout(1000);
+        // await page.waitForTimeout(1000);
 
         // ANCHOR get book list -> book contain title, author, price
         // STUB problems: 
@@ -56,7 +59,7 @@ async function getList(){
         bookList = [...bookList, ...books];
         // console.log(bookList);
 
-        // go to next page
+        //ANCHOR go to next page
 
         const [nextBtnXpath] = await page.$x(nextBtn)
         await nextBtnXpath.click();
@@ -64,8 +67,8 @@ async function getList(){
 
         getUrl = await page.url();
         console.log(getUrl)
-
-        await page.waitForTimeout(1000);
+        //ANCHOR in 2nd page
+        // await page.waitForTimeout(1000);
 
          const books2 = await page.$$eval(bookClassSelector, (bookElems) => 
         bookElems.map( (bookElem)=>{
@@ -83,7 +86,49 @@ async function getList(){
         }))
 
         bookList = [...bookList, ...books2];
-        console.log(bookList);
+
+        //ANCHOR go to 3rd page
+        await page.waitForTimeout(1000); //NOTE doesn't work unless wait for some time
+        const [next2] = await page.$x(nextBtn2);
+        await next2.click();
+        await page.waitForXPath(ResultCountXpath);
+
+        //ANCHOR in 3rd page
+
+        getUrl = await page.url();
+        console.log(getUrl);
+
+        const books3 = await page.$$eval(bookClassSelector, (bookElems) => 
+        bookElems.map( (bookElem)=>{
+            const title = bookElem.querySelector('.RSGBookMetadata_Title').textContent;
+            const author = bookElem.querySelector('.RSGBookMetadata_Authors').textContent;
+            const price = bookElem.querySelector('ul.RSGBookMetadata_Price_Row').childElementCount > 1 
+                        ? bookElem.querySelector('li:nth-child(2) > span.RSGBookMetadata_Price_CurrentPrice').textContent
+                        : bookElem.querySelector('.RSGBookMetadata_Price_CurrentPrice').textContent;
+            const book = {
+                title: title,
+                author: author,
+                price: price
+            }
+            return book;
+        }))
+
+        bookList = [...bookList, ...books3];
+
+        //ANCHOR print book list
+       // console.log(bookList);
+
+        let isCotinued = true;
+        let pageNumber = 1;
+        while(isCotinued){
+            if(pageNumber === 1){
+                console.log(pageNumber);
+            }else{
+                console.log(pageNumber);
+                isCotinued=false
+            }
+            pageNumber++;
+        }
 
         // check if next page available
         
