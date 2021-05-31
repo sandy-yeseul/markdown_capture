@@ -26,7 +26,22 @@ async function getList(){
         await getXpath.click();
         await page.waitForXPath(ResultCountXpath);
 
+        await page.waitForTimeout(1000);
+        console.log(await page.url());
 
+        const nextBtnIcon = await page.$(".RSGIcon-arrowRight");
+        const nextBtn = await nextBtnIcon.getProperty('parentNode');
+        nextBtn.asElement().click();
+
+        await page.waitForTimeout(1000);
+        console.log(await page.url());
+
+        nextBtn.asElement().click();
+
+        await page.waitForTimeout(1000);
+        console.log(await page.url());
+
+        /** failed loop
         let isContinued = true;
         let nextBtn = `//*[@id="KeywordFinderRenewal"]/div[2]/div/nav/ul/a`;
         while (isContinued) {
@@ -61,7 +76,6 @@ async function getList(){
 
             //NOTE set next btn again for 2nd page and +a
             nextBtn = `//*[@id="KeywordFinderRenewal"]/div[2]/div/nav/ul/a[2]`;
-
         }
         
 
