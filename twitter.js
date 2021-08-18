@@ -10,8 +10,15 @@ const client = new Twitter({
 
 let params = {screen_name: 'nodejs'};
 
-client.post('statuses/update', {status: 'I Love Twitter'},  function(error, tweet, response) {
-    if(error) throw error;
-    console.log(tweet);  // Tweet body.
-    console.log(response);  // Raw response object.
-  });
+
+
+async function tweet(){
+    const booklist = await require('./index')
+    const book = await booklist[0]
+    console.log(book)
+    // await client.post('statuses/update', {status: book},  function(error, tweet, response) {
+    //     if(error) throw error;
+    //     console.log(tweet.text)
+    //   });
+}
+tweet();

@@ -1,8 +1,9 @@
 const puppeteer = require("puppeteer");
 
+var bookList = [];
 async function getList(){
     const url               = `https://ridibooks.com/keyword-finder/romance?order=recent&page=1&set_id=1`;
-    const sampleTagXpath    = '//*[@id="KeywordFinderRenewal"]/div[1]/fieldset[6]/div/div/div[1]/ul/li[3]/label/span'; //단행본 태그
+    const sampleTagXpath    = '//*[@id="KeywordFinderRenewal"]/div[1]/fieldset[3]/div/div/div[1]/ul/li[20]/label/span'; //여공남수 태그
     const markdownTagXpath  = '//*[@id="KeywordFinderRenewal"]/div[1]/fieldset[6]/div/div/div[1]/ul/li[2]/label/span';
     const resultDivXpath    = '//*[@id="KeywordFinderRenewal"]/div[2]/div';
     const resultHeaderXpath = '//*[@id="KeywordFinderRenewal"]/div[2]/div/header/div[1]';
@@ -13,20 +14,18 @@ async function getList(){
     const authorClassSelector= '.RSGBookMetadata_Authors';
     const priceClassSelector= '.RSGBookMetadata_Price_CurrentPrice';
 
-    var bookList = [];
 
     try{
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
         await page.goto(url);
-        const [getXpath] = await page.$x(markdownTagXpath);
+        const [getXpath] = await page.$x(sampleTagXpath);
         await getXpath.click();
         
         let isContinued = true;
         while (isContinued) {
             await page.waitForXPath(ResultCountXpath);
-            const getUrl = await page.url(); 
-            console.log(getUrl)
+            const getUrl = await page.url();
 
             //NOTE get Book
             // ANCHOR get book list -> book contain title, author, price
@@ -63,12 +62,14 @@ async function getList(){
 
             await page.waitForTimeout(1000); // NOTE or else they repeat page
         }
-        console.log(bookList);
+        
 
         await browser.close();
+
+        return bookList;
     }
     catch(err){
         console.log(err)
     }
 }
-getList();
+module.exports = getList();
