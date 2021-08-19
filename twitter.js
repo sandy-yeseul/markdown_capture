@@ -1,5 +1,6 @@
-const Twitter = require('twitter');
-require('dotenv').config();
+import Twitter from 'twitter';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const client = new Twitter({
     consumer_key: process.env.TWITTER_CONSUMER_KEY,
@@ -12,13 +13,9 @@ let params = {screen_name: 'nodejs'};
 
 
 
-async function tweet(){
-    const booklist = await require('./index')
-    const book = await booklist[0]
-    console.log(book)
-    // await client.post('statuses/update', {status: book},  function(error, tweet, response) {
-    //     if(error) throw error;
-    //     console.log(tweet.text)
-    //   });
+export async function sendTweet(data){
+    client.post('statuses/update', {status: data},  function(error, tweet, response) {
+        if(error) throw error;
+        return tweet;
+      });
 }
-tweet();
