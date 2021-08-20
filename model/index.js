@@ -1,4 +1,4 @@
-import buildBook from "./book";
+import buildBook from "./book.js";
 
 const makeBook = buildBook();
 
