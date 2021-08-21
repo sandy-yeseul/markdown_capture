@@ -33,26 +33,26 @@ export async function getBookList(pageCount){
       await getXpath.click();
       await page.waitForXPath(ResultCountXpath);
 
-      const books = await page.$$eval(bookClassSelector,
-        (bookElems, bookHelper) => {
-          bookElems.map((bookElem) => {
-            const title = bookElem.querySelector(bookHelper.title).textContent;
-            const author = bookElem.querySelector(bookHelper.author).textContent;
-            const salePrice = bookElem.querySelector(bookHelper.priceParent).childElementCount > 1
-                            ? bookElem.querySelector(bookHelper.price1).textContent
-                            : bookElem.querySelector(bookHelper.price2).textContent;
-            const book = {
-              title: title,
-              author: author,
-              salePrice: salePrice,
-            };
-            return book;
-          });
-        },bookHelper);
+      const books = await page.$$eval(bookClassSelector, (bookElems) => 
+                bookElems.map( (bookElem)=>{
+                    const title = bookElem.querySelector('.RSGBookMetadata_Title').textContent;
+                    const author = bookElem.querySelector('.RSGBookMetadata_Authors').textContent;
+                    const price = bookElem.querySelector('ul.RSGBookMetadata_Price_Row').childElementCount > 1 
+                                ? bookElem.querySelector('li:nth-child(2) > span.RSGBookMetadata_Price_CurrentPrice').textContent
+                                : bookElem.querySelector('.RSGBookMetadata_Price_CurrentPrice').textContent;
+                    const book = {
+                        title: title,
+                        author: author,
+                        price: price
+                    }
+                    return book;
+                }))
+
+
       await browser.close();
       console.log(books)
     } catch (err) {
-      
+      console.log
     }
 }
-getBookList(1);
+getBookList(url);
