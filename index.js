@@ -10,7 +10,7 @@ async function runScript(){
     try {
         const replyId = await sendIntialTweet(period)
         console.log(replyId)
-        console.log(replyId.id)
+        console.log(replyId['id_str'])
     } catch (error) {
         console.log(error)
     }
