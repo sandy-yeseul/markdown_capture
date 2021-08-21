@@ -1,6 +1,4 @@
-
-import { getBookList } from './scraper.js';
-import { tweet as twitter } from './twitter.js';
+import { twitter } from './twitter.js';
 
 
 let twitter_params ={ screen_name: 'ridi_MARKDOWN', }
@@ -13,19 +11,22 @@ export async function sendIntialTweet(period){
     const initialTweet = `${year}년 ${month}월 마크다운 리스트\n기간: ${period}\n@${twitter_params.screen_name}`
     try {
         const tweet = await twitter.post('statuses/update', {status: initialTweet});
-        return tweet;
+        const replyId = tweet['id_str'];
+        return replyId
     } catch (error) {
         console.log(error)
     }
 }
 
-// export async function replyTweet(replyId, tweetData){
-//     try {
-//         const tweetResult = await twitter.post('statuses/update', {status: initialTweet, trim_user: true});
-//     } catch (error) {
-//         console.log(error)
-//     }
-// }
+export async function replyTweet(replyId, tweetData){
+    try {
+        const tweetResult = await twitter.post('statuses/update', {status: tweetData, in_reply_to_status_id: replyId});
+        replyId = tweetResult['id_str']
+        return replyId;
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 // export async function sendTweet(data){
 //     let replyId = ''
@@ -36,9 +37,4 @@ export async function sendIntialTweet(period){
 //         console.log(error)
 //     }
     
-// }
-// function sendTweetThread(twitter, replyId){
-//     const page = 0
-//     const books = await getBookList(page);
-//     const bookStr = `${year}년 ${month}월 마크다운\n《${books[3].title}》\n${books[3].author}\n${books[3].salePrice}\n${books[3].link}`
 // }

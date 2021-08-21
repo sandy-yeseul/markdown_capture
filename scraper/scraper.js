@@ -1,5 +1,4 @@
 import puppeteer from 'puppeteer';
-import {makeBook} from '../model/index.js'
 
 const url               = `https://ridibooks.com/keyword-finder/romance?order=recent&page=1&set_id=1`;
 const sampleTagXpath    = '//*[@id="KeywordFinderRenewal"]/div[1]/fieldset[3]/div/div/div[1]/ul/li[20]/label/span'; //여공남수 태그
