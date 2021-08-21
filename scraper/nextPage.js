@@ -36,3 +36,7 @@
     //   });
     //   if (!isContinued) return false;
     // }
+
+export default (page)=>{
+  
+}

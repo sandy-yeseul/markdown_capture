@@ -11,9 +11,6 @@ async function runScript(){
         for(var i= 0; i< books.length; i++){
             var replyId = await replyTweet(replyId, books[i]);
         }
-        
-        console.log(replyId)
-        
     } catch (error) {
         console.log(error)
     }

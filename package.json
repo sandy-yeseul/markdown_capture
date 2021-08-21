@@ -5,7 +5,7 @@
   "main": "index.js",
   "type" : "module",
   "scripts": {
-    "test": "nodemon scraper.js",
+    "test": "nodemon scraper/scraper.js",
     "start" : "nodemon index.js"
   },
   "author": "",

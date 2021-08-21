@@ -14,6 +14,8 @@ const authorClassSelector= '.RSGBookMetadata_Authors';
 const priceParentClassSelector= `ul.RSGBookMetadata_Price_Row`;
 const priceClassSelector1= `li:nth-child(2) > span.RSGBookMetadata_Price_CurrentPrice`;
 const priceClassSelector2= '.RSGBookMetadata_Price_CurrentPrice';
+
+const nextBtnIconSelector = ".RSGIcon-arrowRight";
 const bookHelper = {
   title: titleClassSelector,
   author: authorClassSelector,
@@ -31,6 +33,16 @@ export async function getBookList(pageCount){
       await getXpath.click();
       await page.waitForXPath(ResultCountXpath);
 
+      // ANCHOR go next page
+      const nextBtnIcon = await page.$(nextBtnIconSelector);
+      if(nextBtnIcon!==null){
+        const nextBtn = await nextBtnIcon.getProperty("parentNode");
+        nextBtn.asElement().click();
+        await page.waitForXPath(ResultCountXpath);
+      }
+
+
+      // ANCHOR Scrape Books in 1 page
       const books = await page.$$eval(
         bookClassSelector,
         (bookElems, bookHelper) =>
@@ -52,8 +64,10 @@ export async function getBookList(pageCount){
         bookHelper
       );
       await browser.close();
+      console.log(books)
       return books;
     } catch (err) {
       console.log
     }
 }
+getBookList('page')
