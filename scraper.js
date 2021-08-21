@@ -28,30 +28,33 @@ export async function getBookList(pageCount){
       const browser = await puppeteer.launch();
       const page = await browser.newPage();
       await page.goto(url);
-      const [getXpath] = await page.$x(glTagXpath);
+      const [getXpath] = await page.$x(sampleTagXpath);
       await getXpath.click();
       await page.waitForXPath(ResultCountXpath);
 
-      const books = await page.$$eval(bookClassSelector, (bookElems, bookHelper) => 
-                bookElems.map( (bookElem)=>{
-                    const title = bookElem.querySelector(bookHelper.title).textContent;
-                    const author = bookElem.querySelector(bookHelper.author).textContent;
-                    const price = bookElem.querySelector(bookHelper.priceParent).childElementCount > 1 
-                                ? bookElem.querySelector(bookHelper.price1).textContent
-                                : bookElem.querySelector(bookHelper.price2).textContent;
-                    let book ={
-                        title: title,
-                        author: author,
-                        salePrice: price
-                    }
-                    return book;
-                }), bookHelper
-                
-                )
+      const books = await page.$$eval(
+        bookClassSelector,
+        (bookElems, bookHelper) =>
+          bookElems.map((bookElem) => {
+            const title = bookElem.querySelector(bookHelper.title).textContent;
+            const author = bookElem.querySelector(bookHelper.author).textContent;
+            const price =bookElem.querySelector(bookHelper.priceParent).childElementCount > 1
+                        ? bookElem.querySelector(bookHelper.price1).textContent
+                        : bookElem.querySelector(bookHelper.price2).textContent;
+            const link = bookElem.querySelector(bookHelper.title).href;
+            let book = {
+              title: title,
+              author: author,
+              salePrice: price,
+              link: link,
+            };
+            return book;
+          }),
+        bookHelper
+      );
       await browser.close();
-      console.log(books)
+      return books;
     } catch (err) {
       console.log
     }
 }
-getBookList(url);
