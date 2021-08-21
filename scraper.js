@@ -20,8 +20,7 @@ const bookHelper = {
   author: authorClassSelector,
   priceParent: priceParentClassSelector,
   price1: priceClassSelector1,
-  price2: priceClassSelector2,
-  makeBook: makeBook
+  price2: priceClassSelector2
 }
 
 export async function getBookList(pageCount){
@@ -34,13 +33,13 @@ export async function getBookList(pageCount){
       await page.waitForXPath(ResultCountXpath);
 
       const books = await page.$$eval(bookClassSelector, (bookElems, bookHelper) => 
-                bookElems.map( async (bookElem)=>{
-                    const title = await bookElem.querySelector(bookHelper.title).textContent;
-                    const author = await bookElem.querySelector(bookHelper.author).textContent;
-                    const price = await bookElem.querySelector(bookHelper.priceParent).childElementCount > 1 
+                bookElems.map( (bookElem)=>{
+                    const title = bookElem.querySelector(bookHelper.title).textContent;
+                    const author = bookElem.querySelector(bookHelper.author).textContent;
+                    const price = bookElem.querySelector(bookHelper.priceParent).childElementCount > 1 
                                 ? bookElem.querySelector(bookHelper.price1).textContent
                                 : bookElem.querySelector(bookHelper.price2).textContent;
-                    const book = {
+                    let book ={
                         title: title,
                         author: author,
                         salePrice: price
@@ -49,8 +48,6 @@ export async function getBookList(pageCount){
                 }), bookHelper
                 
                 )
-
-
       await browser.close();
       console.log(books)
     } catch (err) {
