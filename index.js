@@ -7,14 +7,20 @@ async function runScript() {
   const period = `2021년 8월 23일 수요일 ~ 31일 금요일`;
   try {
     var replyId = await sendIntialTweet(period);
-    while (page < 5) {
+    while (isContinued) {
       const books = await getBookList(page);
+      if(!books) {
+          isContinued = false;
+          console.log("DONE");
+          break;
+        };
       console.log(books);
       for (var i = 0; i < books.length; i++) {
         var replyId = await replyTweet(replyId, books[i]);
       }
       page++;
     }
+    console.log("Loop is done")
   } catch (error) {
     console.log(error);
   }

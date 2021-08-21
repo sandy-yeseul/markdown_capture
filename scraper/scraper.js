@@ -34,17 +34,19 @@ export async function getBookList(pageCount){
       await page.waitForXPath(ResultCountXpath);
       let isContinued = true;
       // ANCHOR go next page
+      console.log(`~~~~~~~~~~~${pageCount}`)
       for (var i = 0; i < pageCount; i++) {
         console.log(`${i}\n`)
         await page.waitForXPath(ResultCountXpath);
         var nextBtnIcon = await page.$(nextBtnIconSelector);
-        if (nextBtnIcon !== null) {
+        if (nextBtnIcon !== null && pageCount < 2) {
           var nextBtn = await nextBtnIcon.getProperty("parentNode");
           await nextBtn.asElement().click();
           await page.waitForTimeout(1000);
         }
         else {
           isContinued = false;
+          console.log(`${pageCount}~~~~~~~~~~~`)
           return isContinued;
         }
       }
