@@ -32,9 +32,9 @@ export async function getBookList(pageCount){
       const [getXpath] = await page.$x(sampleTagXpath);
       await getXpath.click();
       await page.waitForXPath(ResultCountXpath);
-
+      let isContinued = true;
       // ANCHOR go next page
-      for (var i = 0; i < 15; i++) {
+      for (var i = 0; i < pageCount; i++) {
         console.log(`${i}\n`)
         await page.waitForXPath(ResultCountXpath);
         var nextBtnIcon = await page.$(nextBtnIconSelector);
@@ -43,9 +43,9 @@ export async function getBookList(pageCount){
           await nextBtn.asElement().click();
           await page.waitForTimeout(1000);
         }
-        else if (nextBtnIcon === null) {
-          console.log("hi");
-          return 
+        else {
+          isContinued = false;
+          return isContinued;
         }
       }
 
@@ -75,10 +75,8 @@ export async function getBookList(pageCount){
         bookHelper
       );
       await browser.close();
-      console.log(books);
       return books;
     } catch (err) {
       console.log
     }
 }
-getBookList('page')
