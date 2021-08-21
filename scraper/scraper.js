@@ -34,13 +34,20 @@ export async function getBookList(pageCount){
       await page.waitForXPath(ResultCountXpath);
 
       // ANCHOR go next page
-      const nextBtnIcon = await page.$(nextBtnIconSelector);
-      if(nextBtnIcon!==null){
-        const nextBtn = await nextBtnIcon.getProperty("parentNode");
-        nextBtn.asElement().click();
+      for (var i = 0; i < 15; i++) {
+        console.log(`${i}\n`)
         await page.waitForXPath(ResultCountXpath);
+        var nextBtnIcon = await page.$(nextBtnIconSelector);
+        if (nextBtnIcon !== null) {
+          var nextBtn = await nextBtnIcon.getProperty("parentNode");
+          await nextBtn.asElement().click();
+          await page.waitForTimeout(1000);
+        }
+        else if (nextBtnIcon === null) {
+          console.log("hi");
+          return 
+        }
       }
-
 
       // ANCHOR Scrape Books in 1 page
       const books = await page.$$eval(
@@ -48,10 +55,14 @@ export async function getBookList(pageCount){
         (bookElems, bookHelper) =>
           bookElems.map((bookElem) => {
             const title = bookElem.querySelector(bookHelper.title).textContent;
-            const author = bookElem.querySelector(bookHelper.author).textContent;
-            const price =bookElem.querySelector(bookHelper.priceParent).childElementCount > 1
-                        ? bookElem.querySelector(bookHelper.price1).textContent
-                        : bookElem.querySelector(bookHelper.price2).textContent;
+            const author = bookElem.querySelector(
+              bookHelper.author
+            ).textContent;
+            const price =
+              bookElem.querySelector(bookHelper.priceParent).childElementCount >
+              1
+                ? bookElem.querySelector(bookHelper.price1).textContent
+                : bookElem.querySelector(bookHelper.price2).textContent;
             const link = bookElem.querySelector(bookHelper.title).href;
             let book = {
               title: title,
@@ -64,7 +75,7 @@ export async function getBookList(pageCount){
         bookHelper
       );
       await browser.close();
-      console.log(books)
+      console.log(books);
       return books;
     } catch (err) {
       console.log
