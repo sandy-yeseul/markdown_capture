@@ -40,11 +40,11 @@ export async function getBookList(pageCount){
                     const price = await bookElem.querySelector(bookHelper.priceParent).childElementCount > 1 
                                 ? bookElem.querySelector(bookHelper.price1).textContent
                                 : bookElem.querySelector(bookHelper.price2).textContent;
-                    const book = await bookHelper.makeBook({
+                    const book = {
                         title: title,
                         author: author,
                         salePrice: price
-                    })
+                    }
                     return book;
                 }), bookHelper
                 
