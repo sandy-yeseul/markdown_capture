@@ -18,11 +18,12 @@ export async function sendIntialTweet(period){
     }
 }
 
-export async function replyTweet(replyId, tweetData){
+export async function replyTweet(replyId, book){
     try {
-        const tweetResult = await twitter.post('statuses/update', {status: tweetData, in_reply_to_status_id: replyId});
-        replyId = tweetResult['id_str']
-        return replyId;
+        const tweetStr = `《${book.title}》\n${book.author}\n${book.salePrice}\n${book.link}`
+        const tweetResult = await twitter.post('statuses/update', {status: tweetStr, in_reply_to_status_id: replyId});
+        const tweetId = tweetResult['id_str']
+        return tweetId;
     } catch (error) {
         console.log(error)
     }
