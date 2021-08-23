@@ -4,7 +4,7 @@ import { sendIntialTweet, replyTweet } from "./twitter/tweet.js";
 async function runScript() {
   let page = 0;
   let isContinued = true;
-  const period = `2021년 8월 23일 수요일 ~ 31일 금요일`;
+  const period = `2021.08.23.(월) 07:00 ~ 2021.08.31.(화) 23:59`;
   try {
     var replyId = await sendIntialTweet(period);
     while (isContinued) {

@@ -3,7 +3,7 @@ import puppeteer from 'puppeteer';
 const url               = `https://ridibooks.com/keyword-finder/romance?order=recent&page=1&set_id=1`;
 const sampleTagXpath    = '//*[@id="KeywordFinderRenewal"]/div[1]/fieldset[3]/div/div/div[1]/ul/li[20]/label/span'; //여공남수 태그
 const glTagXpath        = `//*[@id="KeywordFinderRenewal"]/div[1]/fieldset[1]/div/div/div[1]/ul/li[12]/label/span`;
-const markdownTagXpath  = '//*[@id="KeywordFinderRenewal"]/div[1]/fieldset[6]/div/div/div[1]/ul/li[2]/label/span';
+const markdownTagXpath  = '//*[@id="KeywordFinderRenewal"]/div[1]/fieldset[6]/div/div/div[1]/ul/li[3]/label/span';
 const resultDivXpath    = '//*[@id="KeywordFinderRenewal"]/div[2]/div';
 const resultHeaderXpath = '//*[@id="KeywordFinderRenewal"]/div[2]/div/header/div[1]';
 const emptyHeaderXpath  = '//*[@id="KeywordFinderRenewal"]/div[2]/div/p';
@@ -29,7 +29,7 @@ export async function getBookList(pageCount){
       const browser = await puppeteer.launch();
       const page = await browser.newPage();
       await page.goto(url);
-      const [getXpath] = await page.$x(sampleTagXpath);
+      const [getXpath] = await page.$x(markdownTagXpath);
       await getXpath.click();
       await page.waitForXPath(ResultCountXpath);
       let isContinued = true;
@@ -39,7 +39,7 @@ export async function getBookList(pageCount){
         console.log(`${i}\n`)
         await page.waitForXPath(ResultCountXpath);
         var nextBtnIcon = await page.$(nextBtnIconSelector);
-        if (nextBtnIcon !== null && pageCount < 2) {
+        if (nextBtnIcon !== null) {
           var nextBtn = await nextBtnIcon.getProperty("parentNode");
           await nextBtn.asElement().click();
           await page.waitForTimeout(1000);
