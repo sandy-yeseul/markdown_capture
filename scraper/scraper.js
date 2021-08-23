@@ -82,3 +82,11 @@ export async function getBookList(pageCount){
       console.log
     }
 }
+
+// document.querySelector('#page_event_list > ul.event_list_wrapper > li:nth-child(1) > div > ul > li:nth-child(1) > span.descript_body').innerText
+// "2021.08.23.(월) 07:00 ~ 2021.08.31.(화) 23:59"
+
+// var textElem = document.querySelector('#page_event_list > ul.event_list_wrapper > li:nth-child(1) > div > h3 > a')
+// if(textElem.textContent.includes('마크다운')){
+//   document.querySelector('#page_event_list > ul.event_list_wrapper > li:nth-child(1) > div > h3 > a').href
+// }
