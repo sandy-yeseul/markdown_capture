@@ -1,5 +1,5 @@
 import {expect} from 'chai'
-import buildBook from '../model/book.js'
+import buildBook from './book.js'
 
 describe("testing book model", ()=>{
     describe("null checking", ()=>{
