@@ -5,9 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "nodemon scraper/scraper.js",
+    "dev": "nodemon scraper/scraper.js",
     "start": "nodemon index.js",
-    "dev" : "mocha --recursive ./__test/*.spec.js"
+    "test" : "mocha --recursive ./**/*.spec.js"
   },
   "author": "",
   "license": "ISC",
