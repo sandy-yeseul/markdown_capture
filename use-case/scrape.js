@@ -3,13 +3,13 @@ import puppeteer from "puppeteer";
 export async function openPage(){
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
-    
-    browser.close();
+    return page;
 }
 
 export async function gotToEventPage(page){
-    const url = ''
+    const url = 'https://ridibooks.com/event/romance'
     await page.goto(url);
+    return;
 }
 export async function findMarkdownEventPage(page){
 

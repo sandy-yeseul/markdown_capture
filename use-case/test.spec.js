@@ -1,10 +1,18 @@
 import { expect } from "chai";
-import { filterBooks, openPage } from "./scrape.js"
+import { filterBooks, gotToEventPage, openPage } from "./scrape.js"
 
 describe("get data", ()=>{
     describe("scrape from web page", ()=>{
+        let page
         it("must open page", async()=>{
-            const page = await openPage();
+            page = await openPage();
+            return;
+        })
+        it("must go to event list page", async()=>{
+            const url = 'https://ridibooks.com/event/romance'
+            await gotToEventPage(page)
+            const currentUrl = await page.url();
+            expect(currentUrl).to.be.equal(url);
         })
         it("must set xPath for require ", async()=>{})
         it("must wait for page", async()=>{})
