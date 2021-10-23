@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { filterBooks, findMarkdownEventPage, gotToEventPage, openPage } from "./scrape.js"
+import { filterBooks, openMarkdownEventPage, gotToEventPage, openPage } from "./scrape.js"
 
 describe("get data", ()=>{
     describe("scrape from web page", ()=>{
@@ -11,11 +11,14 @@ describe("get data", ()=>{
         it("must go to event list page", async()=>{
             const url = 'https://ridibooks.com/event/romance'
             await gotToEventPage(page)
-            const currentUrl = await page.url();
+            const currentUrl = page.url();
             expect(currentUrl).to.be.equal(url);
         })
-        it("must find markdown event page", async()=>{
-            await findMarkdownEventPage(page);
+        it("must open markdown event page", async()=>{
+            await openMarkdownEventPage(page);
+            const currentUrl = page.url();
+            const url = "https://ridibooks.com/event/35425"
+            expect(currentUrl).to.be.equal(url);
         })
         it("must set xPath for require ", async()=>{})
         it("must wait for page", async()=>{})

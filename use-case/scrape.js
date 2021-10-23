@@ -1,5 +1,5 @@
 import puppeteer from "puppeteer";
-export async function openPage(){
+async function test(){
     try {
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
@@ -16,6 +16,11 @@ export async function openPage(){
     } catch (err) {
         console.log(err)
     }
+}
+export async function openPage(){
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    return page;
 }
 
 export async function gotToEventPage(page){
@@ -51,4 +56,4 @@ export function filterBooks(books, pointBackBook, new6books){
     })
     return filteredBooks;
 }
-openPage();
+// test();
