@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { filterBooks, openMarkdownEventPage, gotToEventPage, openPage } from "./scrape.js"
+import { filterBooks, openMarkdownEventPage, gotToEventPage, openPage, scrapeEventPeriod } from "./scrape.js"
 
 describe("get data", ()=>{
     describe("scrape from web page", ()=>{
@@ -17,8 +17,13 @@ describe("get data", ()=>{
         it("must open markdown event page", async()=>{
             await openMarkdownEventPage(page);
             const currentUrl = page.url();
-            const url = "https://ridibooks.com/event/35425"
-            expect(currentUrl).to.be.equal(url);
+            const url = "https://ridibooks.com/event/"
+            expect(currentUrl).to.include(url);
+        })
+        it("must get event period", async()=>{
+            const eventPeriod = await scrapeEventPeriod(page);
+            const eventPeriodStr = "-이벤트 기간"
+            expect(eventPeriod).to.include(eventPeriodStr)
         })
         it("must set xPath for require ", async()=>{})
         it("must wait for page", async()=>{})
