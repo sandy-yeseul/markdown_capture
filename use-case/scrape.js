@@ -16,8 +16,12 @@ async function test(){
         console.log(eventPeriod)
 
         const markdownListEl = await page.$$eval(".event_detail_book_list_wrapper", listEls => {
-            const els = listEls[2].querySelector(".set_text").textContent
-            return els
+            const res = [];
+            const els = listEls[2].querySelectorAll(".book_macro_110")
+            els.forEach(item => res.push(item.querySelector(".set_text").textContent))
+            // const el = els.querySelectorAll(".set_text")
+            // el.forEach(item => {res.push(item.textContent)})
+            return res;
         })
         console.log(markdownListEl)
         
