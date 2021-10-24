@@ -23,7 +23,8 @@ async function test(){
                 const link = item.querySelector(".title_link").href;
                 const title = item.querySelector(".title_link").innerText;
                 const author = item.querySelector(".author").innerText;
-                res.push(author)
+                const salePrice = item.querySelector(".price").innerText;
+                res.push(salePrice)
             })
             // const el = els.querySelectorAll(".set_text")
             // el.forEach(item => {res.push(item.textContent)})
