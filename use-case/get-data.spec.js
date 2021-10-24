@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { getBooks, openMarkdownEventPage, gotToEventPage, openPage, getEventPeriod, getMarkdownBooks } from "./scrape.js"
+import { getBooks, openMarkdownEventPage, gotToEventPage, openPage, getEventPeriod, getMarkdownBooks } from "./get-data.js"
 
 describe("get data", ()=>{
     describe("scrape from web page", ()=>{
@@ -31,5 +31,3 @@ describe("get data", ()=>{
         })
     })
 })
-describe("save data", ()=>{})
-describe("publish data", ()=>{})
