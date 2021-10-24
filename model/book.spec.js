@@ -23,31 +23,39 @@ describe("testing book model", ()=>{
             expect(()=>makeBook({title: "title", author:"author", salePrice: "10", link: "link"}))
             .to.throw(Error, "몇 권인지 표기해 주세요.")
         })
+        it("must throw error: no event period", ()=>{
+            expect(()=>makeBook({title: "title", author:"author", salePrice: "10", link: "link", volume:"volume"}))
+            .to.throw(Error, "이벤트 기간이 없습니다.")
+        })
     })
     describe("format checking", ()=>{
         it("must throw syntax error: title not string", ()=>{
-            expect(()=>makeBook({title: {}, author: "author", salePrice: "10", link: "link", volume: "3"}))
+            expect(()=>makeBook({title: {}, author: "author", salePrice: "10", link: "link", volume: "3", eventPeriod:"event period"}))
             .to.throw(SyntaxError, "제목이 스트링이 아닙니다.")
         })
         it("must throw syntax error: author not string", ()=>{
-            expect(()=>makeBook({title: "title", author: 20, salePrice: "10", link: "link", volume: "3"}))
+            expect(()=>makeBook({title: "title", author: 20, salePrice: "10", link: "link", volume: "3", eventPeriod:"event period"}))
             .to.throw(SyntaxError, "작가가 스트링이 아닙니다.")
         })
         it("must throw syntax error: sale price not string", ()=>{
-            expect(()=>makeBook({title: "title", author: "author", salePrice: [], link: "link", volume: "3"}))
+            expect(()=>makeBook({title: "title", author: "author", salePrice: [], link: "link", volume: "3", eventPeriod:"event period"}))
             .to.throw(SyntaxError, "할인 가격이 스트링이 아닙니다.");
         })
         it("must throw syntax error: link not string", ()=>{
-            expect(()=>makeBook({title: "title", author: "author", salePrice: "10", link: {}, volume: "3"}))
+            expect(()=>makeBook({title: "title", author: "author", salePrice: "10", link: {}, volume: "3", eventPeriod:"event period"}))
             .to.throw(SyntaxError, "링크가 스트링이 아닙니다.")
         })
         it("must throw syntax error: volume not string", ()=>{
-            expect(()=>makeBook({title: "title", author: "author", salePrice: "10", link: "link", volume: ["3"]}))
+            expect(()=>makeBook({title: "title", author: "author", salePrice: "10", link: "link", volume: ["3"], eventPeriod:"event period"}))
             .to.throw(SyntaxError, "책 권수가 스트링이 아닙니다.")
+        })
+        it("must throw syntax error: event period not string", ()=>{
+            expect(()=>makeBook({title: "title", author: "author", salePrice: "10", link: "link", volume: "3", eventPeriod:10}))
+            .to.throw(SyntaxError, "이벤트 기간이 스트링이 아닙니다.")
         })
     })
     describe("normal book model", ()=>{
-        const book = makeBook({title: "title", author: "author", salePrice: "10,700", link: "link", volume: "3"})
+        const book = makeBook({title: "title", author: "author", salePrice: "10,700", link: "link", volume: "3", eventPeriod:"event period"})
         it("must be frozen object", ()=>{
             expect(book).to.be.an("object").and.to.be.frozen
         })

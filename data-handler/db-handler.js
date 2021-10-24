@@ -21,7 +21,8 @@ async function makeDb(){
 function buildMarkdownDB(makeDb){
     return Object.freeze({
         getMarkdownDb,
-        insertManyBooks
+        insertManyBooks,
+        findBooks
     })
     async function getMarkdownDb(){
         const db = await makeDb();
@@ -33,4 +34,18 @@ function buildMarkdownDB(makeDb){
         const {insertedCount} = await db.insertMany(books);
         return insertedCount;
     }
+    async function findBooks(eventPeriod){
+        const db = await getMarkdownDb();
+        const query = {eventPeriod: eventPeriod};
+        const cursor = db.find(query);
+        if((await cursor.count()) === 0){
+            console.log("no document found");
+            return null;
+        } else {
+            const arr = [];
+            await cursor.forEach(item => arr.push(item));
+            return arr;
+        }
+    }
+
 }
