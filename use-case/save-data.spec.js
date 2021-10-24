@@ -9,9 +9,4 @@ describe("save data", ()=>{
         const insertedCount = await saveData(markdownBookList, eventPeriod);
         expect(insertedCount).to.be.greaterThan(100);
     })
-    it("must find all books", async()=>{
-        const eventPeriod = "2021년 10월 22일(금) ~ 10월 31일(일)";
-        const books = await markdownDb.findBooks(eventPeriod);
-        console.log(books);
-    })
 })
