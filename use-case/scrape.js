@@ -1,54 +1,36 @@
 import puppeteer from "puppeteer";
-async function test(){
+
+export {getBooks, openPage, gotToEventPage, openMarkdownEventPage, getEventPeriod, getMarkdownBooks}
+
+async function getBooks(){
     try {
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
 
         await gotToEventPage(page);
-        var currentUrl = await page.url();
-        console.log(currentUrl)
-
         await openMarkdownEventPage(page);
-        var currentUrl = await page.url();
-        console.log(currentUrl)
-
-        const eventPeriod = await scrapeEventPeriod(page);
-        console.log(eventPeriod)
-
-        const markdownListEl = await page.$$eval(".event_detail_book_list_wrapper", listEls => {
-            const res = [];
-            const els = listEls[2].querySelectorAll(".book_macro_110")
-            els.forEach(item => {
-                const volume = item.querySelector(".set_text").textContent;
-                const link = item.querySelector(".title_link").href;
-                const title = item.querySelector(".title_link").innerText;
-                const author = item.querySelector(".author").innerText;
-                const salePrice = item.querySelector(".price").innerText;
-                res.push(salePrice)
-            })
-            // const el = els.querySelectorAll(".set_text")
-            // el.forEach(item => {res.push(item.textContent)})
-            return res;
-        })
-        console.log(markdownListEl)
+        const eventPeriod = await getEventPeriod(page);
+        const markdownBookList = await getMarkdownBooks(page);
         
         browser.close();
+
+        return {eventPeriod, markdownBookList}
     } catch (err) {
         console.log(err)
     }
 }
-export async function openPage(){
+async function openPage(){
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     return page;
 }
 
-export async function gotToEventPage(page){
+async function gotToEventPage(page){
     const url = 'https://ridibooks.com/event/romance'
     await page.goto(url);
     return;
 }
-export async function openMarkdownEventPage(page){
+async function openMarkdownEventPage(page){
     const eventTitleClassSelector = ".event_title";
     const eventName = "마크다운"
     const hrefArr = await page.$$eval(eventTitleClassSelector, (titleElems, eventName) => 
@@ -65,23 +47,34 @@ export async function openMarkdownEventPage(page){
     await page.goto(markDownPageUrl);
     return;
 }
-export async function scrapeEventPeriod(page){
+async function getEventPeriod(page){
     const noticeListSelector = ".notice_list";
     const eventPeriod = await page.$$eval(noticeListSelector, (noticeListEls)=> {
         return noticeListEls[1].firstElementChild.textContent
     })
     return eventPeriod;
 }
-export async function getMarkdownBooks(page){
-
+async function getMarkdownBooks(page){
+    const markdownListEl = await page.$$eval(".event_detail_book_list_wrapper", (listEls) => {
+        const books = [];
+        const makrdownEls = listEls[2].querySelectorAll(".book_macro_110")
+        makrdownEls.forEach(markdownEl => {
+            const volume = markdownEl.querySelector(".set_text").textContent;
+            const link = markdownEl.querySelector(".title_link").href;
+            const title = markdownEl.querySelector(".title_link").innerText;
+            const author = markdownEl.querySelector(".author").innerText;
+            const salePrice = markdownEl.querySelector(".price").innerText;
+            const book = {title, author, salePrice, link, volume};
+            books.push(book);
+        })
+        return books;
+    })
+    return markdownListEl;
 }
-export async function get100PointBackBookData(page){}
-export async function getNew6BooksData(page){}
-export function filterBooks(books, pointBackBook, new6books){
+function filterBooks(books, pointBackBook, new6books){
     let filteredBooks = books.filter(book => book.title !== pointBackBook.title)
     new6books.forEach(newBook => {
         filteredBooks = filteredBooks.filter(book => book.title !== newBook.title)
     })
     return filteredBooks;
 }
-test();

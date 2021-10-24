@@ -37,18 +37,6 @@ describe("testing book model", ()=>{
             expect(()=>makeBook({title: "title", author: "author", salePrice: [], link: "link", volume: "3"}))
             .to.throw(SyntaxError, "할인 가격이 스트링이 아닙니다.");
         })
-        it("must throw syntax error: sale price not correct number", ()=>{
-            expect(()=>makeBook({title: "title", author: "author", salePrice: "10by", link: "link", volume: "3"}))
-            .to.throw(SyntaxError, "할인 가격이 올바른 숫자가 아닙니다.")
-        })
-        it("must throw syntax error: sale price not integer", ()=>{
-            expect(()=> makeBook({title: "title", author: "author", salePrice: "10.5", link: "link", volume: "3"}))
-            .to.throw(SyntaxError, "할인 가격이 정수가 아닙니다.")
-        })
-        it("must throw sytnax error: sale price below 0", ()=>{
-            expect(()=> makeBook({title: "title", author: "author", salePrice: "-10", link: "link", volume: "3"}))
-            .to.throw(SyntaxError, "할인 가격이 음수입니다.")
-        })
         it("must throw syntax error: link not string", ()=>{
             expect(()=>makeBook({title: "title", author: "author", salePrice: "10", link: {}, volume: "3"}))
             .to.throw(SyntaxError, "링크가 스트링이 아닙니다.")
@@ -56,18 +44,6 @@ describe("testing book model", ()=>{
         it("must throw syntax error: volume not string", ()=>{
             expect(()=>makeBook({title: "title", author: "author", salePrice: "10", link: "link", volume: ["3"]}))
             .to.throw(SyntaxError, "책 권수가 스트링이 아닙니다.")
-        })
-        it("must throw syntax error: volume not correct number", ()=>{
-            expect(()=>makeBook({title: "title", author: "author", salePrice: "10", link: "link", volume: "ah1.1"}))
-            .to.throw(SyntaxError, "책 권수가 올바른 숫자가 아닙니다.")
-        })
-        it("must throw syntax error: volume not integer", ()=>{
-            expect(()=>makeBook({title: "title", author: "author", salePrice: "10", link: "link", volume: "3.5"}))
-            .to.throw(SyntaxError, "책 권수가 정수가 아닙니다.")
-        })
-        it("must throw syntax error: volume below 0", ()=>{
-            expect(()=>makeBook({title: "title", author: "author", salePrice: "10", link: "link", volume: "-10"}))
-            .to.throw(SyntaxError, "책 권수가 음수입니다.")
         })
     })
     describe("normal book model", ()=>{
