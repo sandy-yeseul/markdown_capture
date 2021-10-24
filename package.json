@@ -8,7 +8,7 @@
     "dev": "nodemon scraper/scraper.js",
     "start": "nodemon index.js",
     "test": "mocha --recursive ./**/*.spec.js",
-    "debug": "mocha --recursive ./**/test.spec.js --timeout 30000"
+    "debug": "mocha --recursive ./**/db-handler.spec.js --timeout 30000"
   },
   "author": "",
   "license": "ISC",
