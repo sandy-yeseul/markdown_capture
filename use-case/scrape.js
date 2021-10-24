@@ -15,6 +15,12 @@ async function test(){
         const eventPeriod = await scrapeEventPeriod(page);
         console.log(eventPeriod)
 
+        const markdownListEl = await page.$$eval(".event_detail_book_list_wrapper", listEls => {
+            const els = listEls[2].querySelector(".set_text").textContent
+            return els
+        })
+        console.log(markdownListEl)
+        
         browser.close();
     } catch (err) {
         console.log(err)
@@ -55,9 +61,11 @@ export async function scrapeEventPeriod(page){
     })
     return eventPeriod;
 }
+export async function getMarkdownBooks(page){
+
+}
 export async function get100PointBackBookData(page){}
 export async function getNew6BooksData(page){}
-export async function getAllBooks(page){}
 export function filterBooks(books, pointBackBook, new6books){
     let filteredBooks = books.filter(book => book.title !== pointBackBook.title)
     new6books.forEach(newBook => {
