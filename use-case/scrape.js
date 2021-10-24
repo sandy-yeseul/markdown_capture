@@ -21,7 +21,8 @@ async function test(){
             els.forEach(item => {
                 const volume = item.querySelector(".set_text").textContent;
                 const link = item.querySelector(".title_link").href;
-                res.push(link)
+                const title = item.querySelector(".title_link > span").innerText
+                res.push(title)
             })
             // const el = els.querySelectorAll(".set_text")
             // el.forEach(item => {res.push(item.textContent)})
