@@ -12,6 +12,9 @@ async function test(){
         var currentUrl = await page.url();
         console.log(currentUrl)
 
+        const eventPeriod = await scrapeEventPeriod(page);
+        console.log(eventPeriod)
+
         browser.close();
     } catch (err) {
         console.log(err)
@@ -45,7 +48,13 @@ export async function openMarkdownEventPage(page){
     await page.goto(markDownPageUrl);
     return;
 }
-export async function scrapeEventPeriod(page){}
+export async function scrapeEventPeriod(page){
+    const noticeListSelector = ".notice_list";
+    const eventPeriod = await page.$$eval(noticeListSelector, (noticeListEls)=> {
+        return noticeListEls[1].firstElementChild.textContent
+    })
+    return eventPeriod;
+}
 export async function get100PointBackBookData(page){}
 export async function getNew6BooksData(page){}
 export async function getAllBooks(page){}
@@ -56,4 +65,4 @@ export function filterBooks(books, pointBackBook, new6books){
     })
     return filteredBooks;
 }
-// test();
+test();
