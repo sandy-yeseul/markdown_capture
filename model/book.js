@@ -26,7 +26,7 @@ function buildBook(generateId){
         if(!volume) throw new Error("몇 권인지 표기해 주세요.")
         if(!eventPeriod) throw new Error("이벤트 기간이 없습니다.")
 
-        // ANCHOR format checking
+        // ANCHOR syntax checking
         if(typeof title !== "string") throw new SyntaxError("제목이 스트링이 아닙니다.")
         if(typeof author !== "string") throw new SyntaxError("작가가 스트링이 아닙니다.")
         if(typeof salePrice !== "string") throw new SyntaxError("할인 가격이 스트링이 아닙니다.")
@@ -49,6 +49,14 @@ function buildBook(generateId){
         return book;
       } 
 }
+/**
+ * NOTE 정보 긁어오기
+ * 흠...
+ * 1. 정확한 페이지인지? 마크다운 이벤트가 실행되고 있는지?
+ * 2. 이벤트가 시작된 후 긁어와야 함. 아니면 에러 핸들링 따로 하던지.
+ * 3. 전부 다 긁어 왔다는 확신?
+ * -> 이벤트 페이지 자체도 그런데 마크다운 태그로 검색해서 비교할까?
+ */
 /**
  * NOTE 중요한 것들
  * 1. 항목이 아예 없으면 안되는 것들 null 체크
@@ -73,4 +81,9 @@ function buildBook(generateId){
  * 2. 꺼내오는 정보가 정말 지금 이벤트 기간인지 확인해야 함
  * 3. 그 정도만 확신하면 mongodb 안에 들어간 정보가 바뀔리가 없으니까... 괜찮지 않나?
  * 4. modifi count 같은거...?
+ */
+/**
+ * NOTE publish
+ * 1. 흠... 이 단계에서 정보 자체를 의심할 필요는 없을 듯!
+ * 2. 그냥 트윗이 제대로 갔는지, 제대로 스레드로 연결되어 있는지? 같은거 생각하면 되나?
  */

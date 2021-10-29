@@ -28,7 +28,7 @@ describe("testing book model", ()=>{
             .to.throw(Error, "이벤트 기간이 없습니다.")
         })
     })
-    describe("format checking", ()=>{
+    describe("syntax checking", ()=>{
         it("must throw syntax error: title not string", ()=>{
             expect(()=>makeBook({title: {}, author: "author", salePrice: "10", link: "link", volume: "3", eventPeriod:"event period"}))
             .to.throw(SyntaxError, "제목이 스트링이 아닙니다.")
