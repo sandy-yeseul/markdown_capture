@@ -18,36 +18,36 @@ function buildBook(generateId){
   volume,
   eventPeriod
   })=>{
-        //ANCHOR null checking
-        if(!title) throw new Error("제목이 없습니다.")
-        if(!author) throw new Error("작가가 없습니다.")
-        if(!salePrice) throw new Error("할인 가격이 없습니다.")
-        if(!link) throw new Error("링크가 없습니다.")
-        if(!volume) throw new Error("몇 권인지 표기해 주세요.")
-        if(!eventPeriod) throw new Error("이벤트 기간이 없습니다.")
+    //ANCHOR null checking
+    if(!title) throw new Error("제목이 없습니다.")
+    if(!author) throw new Error("작가가 없습니다.")
+    if(!salePrice) throw new Error("할인 가격이 없습니다.")
+    if(!link) throw new Error("링크가 없습니다.")
+    if(!volume) throw new Error("몇 권인지 표기해 주세요.")
+    if(!eventPeriod) throw new Error("이벤트 기간이 없습니다.")
 
-        // ANCHOR syntax checking
-        if(typeof title !== "string") throw new SyntaxError("제목이 스트링이 아닙니다.")
-        if(typeof author !== "string") throw new SyntaxError("작가가 스트링이 아닙니다.")
-        if(typeof salePrice !== "string") throw new SyntaxError("할인 가격이 스트링이 아닙니다.")
-        if(typeof link !== "string") throw new SyntaxError("링크가 스트링이 아닙니다.")
-        if(typeof volume !=="string") throw new SyntaxError("책 권수가 스트링이 아닙니다.")
-        if(typeof eventPeriod !=="string") throw new SyntaxError("이벤트 기간이 스트링이 아닙니다.")
+    // ANCHOR syntax checking
+    if(typeof title !== "string") throw new SyntaxError("제목이 스트링이 아닙니다.")
+    if(typeof author !== "string") throw new SyntaxError("작가가 스트링이 아닙니다.")
+    if(typeof salePrice !== "string") throw new SyntaxError("할인 가격이 스트링이 아닙니다.")
+    if(typeof link !== "string") throw new SyntaxError("링크가 스트링이 아닙니다.")
+    if(typeof volume !=="string") throw new SyntaxError("책 권수가 스트링이 아닙니다.")
+    if(typeof eventPeriod !=="string") throw new SyntaxError("이벤트 기간이 스트링이 아닙니다.")
 
-        //ANCHOR format data
-        if(!_id) _id = generateId();
+    //ANCHOR format data
+    if(!_id) _id = generateId();
 
-        const book = Object.freeze({
-          _id,
-          title,
-          author,
-          salePrice,
-          link,
-          volume,
-          eventPeriod
-        })
-        return book;
-      } 
+    const book = Object.freeze({
+      _id,
+      title,
+      author,
+      salePrice,
+      link,
+      volume,
+      eventPeriod
+    })
+    return book;
+  } 
 }
 /**
  * NOTE 정보 긁어오기
@@ -95,4 +95,26 @@ function buildBook(generateId){
  * 4. 진짜 garbage text만 아니면 되는데... 근데 일부러 그렇게 이름 지을 수도 있지 않을까?
  * 5. 그럼 그냥 무조건 믿을까? 
  * 6. 나중에 이게 다 같은 책인지ㅁ만 검사할까? 그래서 사실 정보만 제대로 있으면 되잖아...
+ */
+/**
+ * NOTE 작가 규칙
+ * 1. 한 글자일 수도 있음
+ * 2. 영어일 수도 있음
+ * 3. 컴퓨터가 이해하지 못하는 수준의 garbage text일 수 있음
+ * 4. 그래서 있는지만 검사하기! 한 글자라도 있어야 함
+ */
+/**
+ * NOTE 할인 가격 규칙
+ * 1. 100원 아래로 내려갈 수 있나...?
+ * 2. 97원 이렇게 
+ * 3. 
+ */
+/**
+ * NOTE 링크 규칙
+ */
+/**
+ * NOTE 권수 규칙
+ */
+/**
+ * NOTE 이벤트 기간 규칙
  */
