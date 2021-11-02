@@ -44,19 +44,27 @@ describe("testing book model", ()=>{
             .to.throw(SyntaxError, "할인 가격이 스트링이 아닙니다.");
         })
         it("must throw syntax error: length is less than 4", ()=>{})
-        it("must throw syntax error: price is not number", ()=>{})
+        it("must throw syntax error: price is not correct number", ()=>{})
+        it("must throw syntax error: sale price is below 100", ()=>{})
         it("must throw syntax error: link not string", ()=>{
             expect(()=>makeBook({title: "title", author: "author", salePrice: "10", link: {}, volume: "3", eventPeriod:"event period"}))
             .to.throw(SyntaxError, "링크가 스트링이 아닙니다.")
         })
+        it("must throw syntax error: length is below 10", ()=>{})
+        it("must throw syntax error: link doesn't involve https://ridibooks.com", ()=>{})
         it("must throw syntax error: volume not string", ()=>{
             expect(()=>makeBook({title: "title", author: "author", salePrice: "10", link: "link", volume: ["3"], eventPeriod:"event period"}))
             .to.throw(SyntaxError, "책 권수가 스트링이 아닙니다.")
         })
+        it("must throw error: length is below 0", ()=>{})
+        it("must throw syntax error: volume is not correct number", ()=>{})
+        it('must throw syntax error: volume is below 0', ()=>{})
         it("must throw syntax error: event period not string", ()=>{
             expect(()=>makeBook({title: "title", author: "author", salePrice: "10", link: "link", volume: "3", eventPeriod:10}))
             .to.throw(SyntaxError, "이벤트 기간이 스트링이 아닙니다.")
         })
+        it("must thorw syntax error: length is below 10", ()=>{})
+        it("must throw syntax error: date is not now", ()=>{})
     })
     describe("normal book model", ()=>{
         const book = makeBook({title: "title", author: "author", salePrice: "10,700", link: "link", volume: "3", eventPeriod:"event period"})
