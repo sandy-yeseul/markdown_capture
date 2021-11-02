@@ -33,14 +33,18 @@ describe("testing book model", ()=>{
             expect(()=>makeBook({title: {}, author: "author", salePrice: "10", link: "link", volume: "3", eventPeriod:"event period"}))
             .to.throw(SyntaxError, "제목이 스트링이 아닙니다.")
         })
+        it("must throw syntax error: title length is not longer than or equal to 1", ()=>{})
         it("must throw syntax error: author not string", ()=>{
             expect(()=>makeBook({title: "title", author: 20, salePrice: "10", link: "link", volume: "3", eventPeriod:"event period"}))
             .to.throw(SyntaxError, "작가가 스트링이 아닙니다.")
         })
+        it("must throw syntax error: author lenght is less than 1", ()=>{})
         it("must throw syntax error: sale price not string", ()=>{
             expect(()=>makeBook({title: "title", author: "author", salePrice: [], link: "link", volume: "3", eventPeriod:"event period"}))
             .to.throw(SyntaxError, "할인 가격이 스트링이 아닙니다.");
         })
+        it("must throw syntax error: length is less than 4", ()=>{})
+        it("must throw syntax error: price is not number", ()=>{})
         it("must throw syntax error: link not string", ()=>{
             expect(()=>makeBook({title: "title", author: "author", salePrice: "10", link: {}, volume: "3", eventPeriod:"event period"}))
             .to.throw(SyntaxError, "링크가 스트링이 아닙니다.")
