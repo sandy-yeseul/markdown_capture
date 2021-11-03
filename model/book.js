@@ -35,7 +35,7 @@ function buildBook(generateId){
     if(typeof eventPeriod !=="string") throw new TypeError("이벤트 기간이 스트링이 아닙니다.")
 
     // ANCHOR syntax checking
-
+    if(salePrice.length < 4) throw new SyntaxError('할인 가격의 글자수가 3자 이하입니다.')
     //ANCHOR format data
     if(!_id) _id = generateId();
 

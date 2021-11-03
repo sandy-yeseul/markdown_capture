@@ -55,13 +55,14 @@ describe("testing book model", ()=>{
         })
     })
     describe("syntax checking", ()=>{
-        it("must throw syntax error: title length is not longer than or equal to 1", ()=>{
-            expect(()=>makeBook({title: "", author: "author", salePrice: "10", link: "link", volume: "3", eventPeriod:'10'}))
-            .to.throw(Error, "이벤트 기간이 스트링이 아닙니다.")
+        it("must throw syntax error: sale price length is less than 4", ()=>{
+            expect(()=>makeBook({title: "title", author: "author", salePrice: "10", link: "link", volume: "3", eventPeriod:'10'}))
+            .to.throw(SyntaxError, '할인 가격의 글자수가 3자 이하입니다.')
         })
-        it("must throw syntax error: author lenght is less than 1", ()=>{})
-        it("must throw syntax error: length is less than 4", ()=>{})
-        it("must throw syntax error: price is not correct number", ()=>{})
+        it("must throw syntax error: price is not correct number", ()=>{
+            expect(()=>makeBook({title: "title", author: "author", salePrice: "10", link: "link", volume: "3", eventPeriod:'10'}))
+            .to.throw(SyntaxError, '할인 가격이 정확한 숫자가 아닙니다.')
+        })
         it("must throw syntax error: sale price is below 100", ()=>{})
         it("must throw syntax error: length is below 10", ()=>{})
         it("must throw syntax error: link doesn't involve https://ridibooks.com", ()=>{})
