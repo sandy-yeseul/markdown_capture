@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from "uuid"
+import { v4 as uuidv4 } from 'uuid';
 const makeBook = buildBook(generateId);
 export {makeBook}
 
@@ -26,13 +26,15 @@ function buildBook(generateId){
     if(!volume) throw new Error("몇 권인지 표기해 주세요.")
     if(!eventPeriod) throw new Error("이벤트 기간이 없습니다.")
 
+    //ANCHOR type error checking
+    if(typeof title !== "string") throw new TypeError("제목이 스트링이 아닙니다.")
+    if(typeof author !== "string") throw new TypeError("작가가 스트링이 아닙니다.")
+    if(typeof salePrice !== "string") throw new TypeError("할인 가격이 스트링이 아닙니다.")
+    if(typeof link !== "string") throw new TypeError("링크가 스트링이 아닙니다.")
+    if(typeof volume !=="string") throw new TypeError("책 권수가 스트링이 아닙니다.")
+    if(typeof eventPeriod !=="string") throw new TypeError("이벤트 기간이 스트링이 아닙니다.")
+
     // ANCHOR syntax checking
-    if(typeof title !== "string") throw new SyntaxError("제목이 스트링이 아닙니다.")
-    if(typeof author !== "string") throw new SyntaxError("작가가 스트링이 아닙니다.")
-    if(typeof salePrice !== "string") throw new SyntaxError("할인 가격이 스트링이 아닙니다.")
-    if(typeof link !== "string") throw new SyntaxError("링크가 스트링이 아닙니다.")
-    if(typeof volume !=="string") throw new SyntaxError("책 권수가 스트링이 아닙니다.")
-    if(typeof eventPeriod !=="string") throw new SyntaxError("이벤트 기간이 스트링이 아닙니다.")
 
     //ANCHOR format data
     if(!_id) _id = generateId();
