@@ -55,7 +55,10 @@ describe("testing book model", ()=>{
         })
     })
     describe("syntax checking", ()=>{
-        it("must throw syntax error: title length is not longer than or equal to 1", ()=>{})
+        it("must throw syntax error: title length is not longer than or equal to 1", ()=>{
+            expect(()=>makeBook({title: "", author: "author", salePrice: "10", link: "link", volume: "3", eventPeriod:'10'}))
+            .to.throw(Error, "이벤트 기간이 스트링이 아닙니다.")
+        })
         it("must throw syntax error: author lenght is less than 1", ()=>{})
         it("must throw syntax error: length is less than 4", ()=>{})
         it("must throw syntax error: price is not correct number", ()=>{})
