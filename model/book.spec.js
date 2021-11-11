@@ -75,9 +75,10 @@ describe("testing book model", ()=>{
             expect(()=>makeBook({title: "title", author: "author", salePrice: "1000원", link: "https://ridibooks.com/a", volume: "ㅁㅇㄹㄴ권 세트", eventPeriod:'10'}))
             .to.throw(Error, '권 수가 정확한 숫자가 아닙니다.')
         })
-        it('must throw error: volume is below 0', ()=>{})
-        it("must thorw error: length is below 10", ()=>{})
-        it("must throw error: date is not now", ()=>{})
+        // it("must thorw error: event period length is below 10", ()=>{
+        //     expect(()=>makeBook({title: "title", author: "author", salePrice: "1000원", link: "https://ridibooks.com/a", volume: "3권 세트", eventPeriod:'10'}))
+        //     .to.throw(Error, '이벤트 기간이 10자 이하입니다.')
+        // })
     })
     describe("normal book model", ()=>{
         const book = makeBook({title: "title", author: "author", salePrice: "10,000원", link: "https://ridibooks.com/a", volume: "3권 세트", eventPeriod:"event period"})
