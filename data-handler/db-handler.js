@@ -26,8 +26,7 @@ function buildMarkdownDB(makeDb){
     })
     async function getMarkdownDb(){
         const db = await makeDb();
-        const collection = await db.collection('markdown');
-        return collection
+        return await db.collection('markdown');
     }
     async function insertManyBooks(books){
         const db = await getMarkdownDb();

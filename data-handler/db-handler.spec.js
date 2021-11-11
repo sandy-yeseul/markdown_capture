@@ -5,8 +5,8 @@ import { markdownDb } from "./db-handler.js"
 describe("mongo db handling", ()=>{
     it("must build db", async()=>{
         const db = await markdownDb.getMarkdownDb();
-        const dbName = "markdown";
-        expect(db.s.namespace).to.have.property('collection', dbName)
+        const collection = "markdown";
+        expect(db.s.namespace).to.have.property('collection', collection)
     })
     it("must insert all books", async()=>{
         const docs = [{title: "title", author: "author"}, {title: "author", author: "auth"}]
@@ -17,5 +17,8 @@ describe("mongo db handling", ()=>{
         const eventPeriod = "2021년 10월 22일(금) ~ 10월 31일(일)"
         const books = await markdownDb.findBooks(eventPeriod);
         expect(books).to.be.null;
+    })
+    it("must return null if no book found", async()=>{
+        
     })
 })
