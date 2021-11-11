@@ -36,8 +36,10 @@ function buildBook(generateId){
 
     // ANCHOR syntax checking
     if(salePrice.length < 4) throw new Error('할인 가격의 글자수가 3자 이하입니다.')
-    // if(!Number.isSafeInteger(salePrice.split('원')[0].replace(/,/g, ''))) throw new Error('할인 가격이 정확한 숫자가 아닙니다.')
+    if(!Number.isSafeInteger(Number(salePrice.split('원')[0].replace(/,/g, '')))) throw new Error('할인 가격이 정확한 숫자가 아닙니다.')
     if(link.length < 10 ) throw new Error("링크가 10자 이하입니다.")
+    if(!link.includes('https://ridibooks.com')) throw new Error("올바른 링크가 아닙니다.")
+    if(!Number.isSafeInteger(Number(volume.split('권 세트')[0]))) throw new Error("권 수가 정확한 숫자가 아닙니다.")
     //ANCHOR format data
     if(!_id) _id = generateId();
 
