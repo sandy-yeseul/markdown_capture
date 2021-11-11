@@ -7,4 +7,7 @@ describe("publish data", ()=>{
         const books = await markdownDb.findBooks(eventPeriod);
         expect(books).to.be.lengthOf.greaterThan(100)
     })
+    it("must connect to twitter", async()=>{})
+    it("must tweet initial tweet", async()=>{})
+    it("must tweet all books", async()=>{})
 })

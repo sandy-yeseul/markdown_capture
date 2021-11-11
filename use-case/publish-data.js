@@ -1,1 +1,1 @@
-async function publish
+// async function publish
