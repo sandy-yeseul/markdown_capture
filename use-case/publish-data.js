@@ -5,7 +5,8 @@ config();
 
 export {
     getTwitter,
-    getBooksFromDb
+    getBooksFromDb,
+    tweetInitialTweet
 }
 
 function getTwitter(){
@@ -25,5 +26,19 @@ function getBooksFromDb(eventPeriod){
         return markdownDb.findBooks(eventPeriod);
     } catch (err) {
         console.log(err)
+    }
+}
+async function tweetInitialTweet(eventPeriod){
+    try {
+        const dt = new Date(),
+        year = dt.getFullYear(),
+        month = dt.getMonth() +1,
+        initialTweetText =  `${year}년 ${month}월 마크다운 리스트
+        \n기간: ${eventPeriod}`,
+        twitter = getTwitter(),
+        {id_str} = await twitter.post('status/update', {status: initialTweetText})
+        return id_str
+    } catch (err) {
+        console.log(err);
     }
 }
