@@ -1,6 +1,6 @@
 import Twitter from 'twitter';
 import {config} from 'dotenv';
-import { markdownDb } from '../data-handler/db-handler';
+import { markdownDb } from '../data-handler/db-handler.js';
 config();
 
 export {
@@ -22,7 +22,7 @@ function getTwitter(){
 }
 function getBooksFromDb(eventPeriod){
     try {
-        return await markdownDb.findBooks(eventPeriod);
+        return markdownDb.findBooks(eventPeriod);
     } catch (err) {
         console.log(err)
     }
