@@ -1,5 +1,6 @@
 import { expect } from "chai"
 import { markdownDb } from "../data-handler/db-handler.js";
+import { getTwitter } from "./publish-data.js";
 
 describe("publish data", ()=>{
     it("must find all books", async()=>{
@@ -7,7 +8,10 @@ describe("publish data", ()=>{
         const books = await markdownDb.findBooks(eventPeriod);
         expect(books).to.be.lengthOf.greaterThan(100)
     })
-    it("must connect to twitter", async()=>{})
+    it("must get twitter object", async()=>{
+        const twitter = getTwitter();
+        expect(twitter).to.be.an('object').and.to.have.property('request')
+    })
     it("must tweet initial tweet", async()=>{})
     it("must tweet all books", async()=>{})
 })
