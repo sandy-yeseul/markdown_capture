@@ -6,7 +6,8 @@ config();
 export {
     getTwitter,
     getBooksFromDb,
-    tweetInitialTweet
+    tweetInitialTweet,
+    tweetAllBooks
 }
 
 function getTwitter(){
@@ -40,5 +41,27 @@ async function tweetInitialTweet(eventPeriod){
         return id_str
     } catch (err) {
         console.log(err);
+    }
+}
+async function tweetAllBooks({initialTweetId: replyId, books}){
+    try {
+        const booksId = [replyId];
+        for(const book of books){
+            var replyId = await replyTweet({replyId, book})
+            booksId[booksId.length] = replyId
+        }
+        return booksId;
+    } catch (err) {
+        console.log(err)
+    }
+}
+async function replyTweet({replyId, book}){
+    try {
+        const tweetStr = `${book.title}\n${book.author}\n${book.salePrice}\n${book.link}`,
+        twitter = getTwitter(),
+        {id_str} = await twitter.post('statuses/update', {status: tweetStr, in_reply_to_status_id: replyId})
+        return id_str
+    } catch (err) {
+        console.log(err)
     }
 }
