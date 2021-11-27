@@ -36,7 +36,7 @@ async function tweetInitialTweet(eventPeriod){
         initialTweetText =  `${year}년 ${month}월 마크다운 리스트
         \n기간: ${eventPeriod}`,
         twitter = getTwitter(),
-        {id_str} = await twitter.post('status/update', {status: initialTweetText})
+        {id_str} = await twitter.post('statuses/update', {status: initialTweetText})
         return id_str
     } catch (err) {
         console.log(err);

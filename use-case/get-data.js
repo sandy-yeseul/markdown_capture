@@ -57,7 +57,7 @@ async function getEventPeriod(page){
 async function getMarkdownBooks(page){
     const markdownListEl = await page.$$eval(".event_detail_book_list_wrapper", (listEls) => {
         const books = [];
-        const makrdownEls = listEls[2].querySelectorAll(".book_macro_110")
+        const makrdownEls = listEls[1].querySelectorAll(".book_macro_110")
         makrdownEls.forEach(markdownEl => {
             const volume = markdownEl.querySelector(".set_text").textContent;
             const link = markdownEl.querySelector(".title_link").href;

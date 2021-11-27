@@ -2,7 +2,7 @@ import { expect } from "chai"
 import { markdownDb } from "../data-handler/db-handler.js";
 import { getBooksFromDb, getTwitter, tweetInitialTweet } from "./publish-data.js";
 
-const eventPeriod = "2021년 10월 22일(금) ~ 10월 31일(일)";
+const eventPeriod = "2021년 11월 23일(화) ~ 11월 30일(화)";
 describe("publish data", ()=>{
     it("must find all books", async()=>{
         const books = await getBooksFromDb(eventPeriod);
