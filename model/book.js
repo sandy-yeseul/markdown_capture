@@ -16,7 +16,8 @@ function buildBook(generateId){
   salePrice,
   link,
   volume,
-  eventPeriod
+  eventPeriod,
+  tweetId
   })=>{
     //ANCHOR null checking
     if(!title) throw new Error("제목이 없습니다.")
@@ -33,6 +34,7 @@ function buildBook(generateId){
     if(typeof link !== "string") throw new TypeError("링크가 스트링이 아닙니다.")
     if(typeof volume !=="string") throw new TypeError("책 권수가 스트링이 아닙니다.")
     if(typeof eventPeriod !=="string") throw new TypeError("이벤트 기간이 스트링이 아닙니다.")
+    if(tweetId && typeof tweetId !== 'string') throw new TypeError('tweet id가 스트링이 아닙니다.')
 
     // ANCHOR syntax checking
     if(salePrice.length < 4) throw new Error('할인 가격의 글자수가 3자 이하입니다.')
@@ -40,6 +42,8 @@ function buildBook(generateId){
     if(link.length < 10 ) throw new Error("링크가 10자 이하입니다.")
     if(!link.includes('https://ridibooks.com')) throw new Error("올바른 링크가 아닙니다.")
     if(!Number.isSafeInteger(Number(volume.split('권 세트')[0]))) throw new Error("권 수가 정확한 숫자가 아닙니다.")
+    if(tweetId && tweetId.length < 2) throw new Error('tweet id가 1글자 입니다.')
+
     //ANCHOR format data
     if(!_id) _id = generateId();
 
