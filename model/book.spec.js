@@ -129,4 +129,51 @@ describe("testing book model", ()=>{
             .and.to.be.a("string")
         })
     })
+    describe('update normal book', () => {
+      let book;
+      before(() => book = makeBook({
+            title: 'title',
+            author: "author",
+            salePrice: '10,000원',
+            link: 'https://ridibooks.com/a',
+            volume: '3권 세트',
+            eventPeriod: '2020년 12월 31일',
+            tweetId: 'asdfsd'
+      }))
+      it('must be frozen object', ()=>
+        expect(book).to.be.an('object').to.be.frozen)
+        it('must have _id field', ()=>
+            expect(book).to.haveOwnProperty('_id')
+            .to.be.a('string')
+            .to.be.lengthOf.at.least(5))
+        it("should have title", ()=>{
+            expect(book).to.have.property("title")
+            .and.to.be.a("string")
+            .and.to.be.lengthOf.at.least(2)
+        })
+        it("should have author", ()=>{
+            expect(book).to.have.property("author")
+            .and.to.be.a("string")
+            .and.to.be.lengthOf.at.least(2)
+        })
+        it("should have salePrice", ()=>{
+            expect(book).to.have.property("salePrice")
+            .and.to.be.a("string")
+            .and.to.be.lengthOf.at.least(2)
+        })
+        it("should have link", ()=>{
+            expect(book).to.have.property("link")
+            .and.to.be.a("string")
+            .and.to.be.lengthOf.at.least(2)
+        })
+        it("should have volume", ()=>{
+            expect(book).to.have.property("volume")
+            .and.to.be.a("string")
+        })
+        it('should have tweet id', ()=>
+            expect(book).to.haveOwnProperty('tweetId')
+            .to.be.a("string")
+            .to.be.lengthOf.at.least(2))
+    });
+    
 })
