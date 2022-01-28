@@ -54,7 +54,8 @@ function buildBook(generateId){
       salePrice,
       link,
       volume,
-      eventPeriod
+      eventPeriod,
+      tweetId
     })
     return book;
   } 
