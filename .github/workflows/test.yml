@@ -16,4 +16,6 @@ jobs:
         with:
           node-version: "14"
       - run: npm install
+      - run: npm install -g mocha
+      - run: npm install -g chai
       - run: npm schedule
