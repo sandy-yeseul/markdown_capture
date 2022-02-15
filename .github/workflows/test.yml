@@ -3,7 +3,9 @@ on:
   schedule:
     # * is a special character in YAML so you have to quote this string
     # 5:30 & 17:30
-    - cron:  '30 5,17 * * *'
+    # - cron:  '30 5,17 * * *'
+    # 10분마다... 뭔가 문법이 다른데ㅣ..
+    - cron: '*/10 * * * *'
     # 2 번째 cron은 skip 하라는 뜻 같기도 하고?
     # 그냥 multiple 같기도 하고...
 jobs:
