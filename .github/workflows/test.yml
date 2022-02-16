@@ -12,6 +12,7 @@ jobs:
   test_schedule:
     runs-on: ubuntu-latest
     steps:
+      - uses: ./
       - uses: actions/setup-node@v2
         with:
           node-version: "14"
