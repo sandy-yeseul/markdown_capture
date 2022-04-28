@@ -18,16 +18,17 @@ describe("get data", ()=>{
             await openMarkdownEventPage(page);
             const currentUrl = page.url();
             const url = "https://ridibooks.com/event/"
+            console.log(currentUrl)
             expect(currentUrl).to.include(url);
         })
-        it("must get event period", async()=>{
-            const eventPeriod = await getEventPeriod(page);
-            const eventPeriodStr = "-이벤트 기간"
-            expect(eventPeriod).to.include(eventPeriodStr)
-        })
-        it("must get markdown event book list", async()=>{
-            const books = await getMarkdownBooks(page);
-            expect(books).to.have.lengthOf.at.least(100)
-        })
+        // it("must get event period", async()=>{
+        //     const eventPeriod = await getEventPeriod(page);
+        //     const eventPeriodStr = "-이벤트 기간"
+        //     expect(eventPeriod).to.include(eventPeriodStr)
+        // })
+        // it("must get markdown event book list", async()=>{
+        //     const books = await getMarkdownBooks(page);
+        //     expect(books).to.have.lengthOf.at.least(100)
+        // })
     })
 })

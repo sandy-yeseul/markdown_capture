@@ -31,16 +31,19 @@ async function gotToEventPage(page){
     return;
 }
 async function openMarkdownEventPage(page){
-    const eventTitleClassSelector = ".event_title";
+    const eventDescriptionClassSelector = ".descript_body";
     const eventName = "마크다운"
-    const hrefArr = await page.$$eval(eventTitleClassSelector, (titleElems, eventName) => 
-        titleElems.map(titleElem =>{
-            if(titleElem.textContent.includes(eventName)) {
+    const hrefArr = await page.$$eval(eventDescriptionClassSelector, (descElems, eventName) => 
+        descElems.map(descElem =>{
+            if(descElem.textContent.includes(eventName)) {
+                
                 // link가 /event/35425 이렇게 나와서 나중에 숫자만 extract 함
-                return titleElem.firstElementChild.getAttribute('href')
+                return descElem.parentElement.parentElement.parentElement.querySelector('a').href
+                
             }
         }), eventName
     )
+    console.log(hrefArr.filter(item => item))
     let markdownEventUrlNumber = hrefArr.filter(item => item)[0].match(/\d+/)[0] // 숫자 extract
     const markDownPageUrl = `https://ridibooks.com/event/${markdownEventUrlNumber}`
 
