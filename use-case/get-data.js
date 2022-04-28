@@ -38,12 +38,10 @@ async function openMarkdownEventPage(page){
             if(descElem.textContent.includes(eventName)) {
                 
                 // link가 /event/35425 이렇게 나와서 나중에 숫자만 extract 함
-                return descElem.parentElement.parentElement.parentElement.querySelector('a').href
-                
+                return descElem.closest('.event_description_wrapper').querySelector('a').href
             }
         }), eventName
     )
-    console.log(hrefArr.filter(item => item))
     let markdownEventUrlNumber = hrefArr.filter(item => item)[0].match(/\d+/)[0] // 숫자 extract
     const markDownPageUrl = `https://ridibooks.com/event/${markdownEventUrlNumber}`
 
