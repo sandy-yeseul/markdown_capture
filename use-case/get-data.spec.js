@@ -24,11 +24,11 @@ describe("get data", ()=>{
             const eventPeriod = await getEventPeriod(page);
             const eventPeriodStr = "-이벤트 기간"
             expect(eventPeriod).to.include(eventPeriodStr)
-            console.log(eventPeriod)
         })
-        // it("must get markdown event book list", async()=>{
-        //     const books = await getMarkdownBooks(page);
-        //     expect(books).to.have.lengthOf.at.least(100)
-        // })
+        it("must get markdown event book list", async()=>{
+            const books = await getMarkdownBooks(page);
+            console.log(books[0])
+            expect(books).to.have.lengthOf.at.least(100)
+        })
     })
 })

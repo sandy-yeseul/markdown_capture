@@ -58,24 +58,22 @@ async function getEventPeriod(page){
 async function getMarkdownBooks(page){
     const markdownListEl = await page.$$eval(".event_detail_book_list_wrapper", (listEls) => {
         const books = [];
-        const makrdownEls = listEls[1].querySelectorAll(".book_macro_110")
-        makrdownEls.forEach(markdownEl => {
-            const volume = markdownEl.querySelector(".set_text").textContent;
+        listEls.forEach(listEl => {
+           const makrdownEls = listEl.querySelectorAll(".book_macro_110")
+           makrdownEls.forEach(markdownEl => {
+            const volumeEl = markdownEl.querySelector(".set_text");
+            // 신작 6종 거르기 위해
+            if(volumeEl === null) return;
+            const volume = volumeEl.textContent;
             const link = markdownEl.querySelector(".title_link").href;
             const title = markdownEl.querySelector(".title_link").innerText;
             const author = markdownEl.querySelector(".author").innerText;
             const salePrice = markdownEl.querySelector(".price").innerText;
             const book = {title, author, salePrice, link, volume};
             books.push(book);
-        })
+            })
+        })        
         return books;
     })
     return markdownListEl;
-}
-function filterBooks(books, pointBackBook, new6books){
-    let filteredBooks = books.filter(book => book.title !== pointBackBook.title)
-    new6books.forEach(newBook => {
-        filteredBooks = filteredBooks.filter(book => book.title !== newBook.title)
-    })
-    return filteredBooks;
 }
