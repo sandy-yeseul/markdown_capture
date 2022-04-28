@@ -69,10 +69,10 @@ describe("testing book model", ()=>{
             expect(()=>makeBook({title: "title", author: "author", salePrice: "10", link: "https://ridibooks.com/a", volume: "3권 세트", eventPeriod:'10'}))
             .to.throw(Error, '할인 가격의 글자수가 3자 이하입니다.')
         })
-        // it("must throw error: price is not correct number", ()=>{
-        //     expect(()=>makeBook({title: "title", author: "author", salePrice: "ㅁㅇㄹㄴㅁㅇ원", link: "link", volume: "3", eventPeriod:'10'}))
-        //     .to.throw(Error, '할인 가격이 정확한 숫자가 아닙니다.')
-        // })
+        it("must throw error: price is not correct number", ()=>{
+            expect(()=>makeBook({title: "title", author: "author", salePrice: "ㅁㅇㄹㄴㅁㅇ원", link: "link", volume: "3", eventPeriod:'10'}))
+            .to.throw(Error, '할인 가격이 정확한 숫자가 아닙니다.')
+        })
         it("must throw error: link length is below 10", ()=>{
             expect(()=>makeBook({title: "title", author: "author", salePrice: "1000원", link: "https", volume: "3권 세트", eventPeriod:'10'}))
             .to.throw(Error, '링크가 10자 이하입니다.')
@@ -85,10 +85,6 @@ describe("testing book model", ()=>{
             expect(()=>makeBook({title: "title", author: "author", salePrice: "1000원", link: "https://ridibooks.com/a", volume: "ㅁㅇㄹㄴ권 세트", eventPeriod:'10'}))
             .to.throw(Error, '권 수가 정확한 숫자가 아닙니다.')
         })
-        // it("must thorw error: event period length is below 10", ()=>{
-        //     expect(()=>makeBook({title: "title", author: "author", salePrice: "1000원", link: "https://ridibooks.com/a", volume: "3권 세트", eventPeriod:'10'}))
-        //     .to.throw(Error, '이벤트 기간이 10자 이하입니다.')
-        // })
         it('must throw error: tweet id is shorter than 2', ()=>{
             expect(()=>makeBook({title: "title", author: "author", salePrice: "1000원", link: "https://ridibooks.com/a", volume: "10권 세트", eventPeriod:'10', tweetId: '2'}))
             .to.throw(Error, 'tweet id가 1글자 입니다.')
