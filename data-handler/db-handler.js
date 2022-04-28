@@ -22,7 +22,8 @@ function buildMarkdownDB(makeDb){
     return Object.freeze({
         getMarkdownDb,
         insertManyBooks,
-        findBooks
+        findBooks,
+        deleteBooksByEventPeriod
     })
     async function getMarkdownDb(){
         const db = await makeDb();
@@ -46,5 +47,9 @@ function buildMarkdownDB(makeDb){
             return arr;
         }
     }
-
+    async function deleteBooksByEventPeriod(eventPeriod){
+        const db = await getMarkdownDb(),
+        query = {eventPeriod}
+        return db.deleteMany(query)
+    }
 }
