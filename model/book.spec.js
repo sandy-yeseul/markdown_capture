@@ -185,7 +185,7 @@ describe("testing book model", ()=>{
             .to.be.lengthOf.at.least(2))
         it("should have createdAt", ()=>
             expect(book).to.haveOwnProperty('createdAt')
-            .to.be.eq(dt)
+            .to.be.deep.eq(dt)
         )
     });
     
