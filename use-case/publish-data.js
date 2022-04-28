@@ -5,7 +5,8 @@ config();
 export {
     getTwitter,
     tweetInitialTweet,
-    replyTweet
+    replyTweet,
+    deleteTweet
 }
 
 function getTwitter(){
@@ -45,5 +46,11 @@ async function replyTweet(replyId, book){
     }
 }
 async function deleteTweet(tweetId){
-    await twitter.post(`statuses/destroy/${tweetId}`)
+    try {
+        const twitter = getTwitter();
+        const res = await twitter.post(`statuses/destroy/${tweetId}`, {})
+        return res
+    } catch (err) {
+        console.log(err)
+    }
 }

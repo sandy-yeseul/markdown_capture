@@ -1,10 +1,10 @@
 import { expect } from "chai"
 import { markdownDb } from "../data-handler/db-handler.js";
 import { getBooks } from "./get-data.js";
-import { getTwitter, replyTweet, tweetInitialTweet } from "./publish-data.js";
+import { deleteTweet, getTwitter, replyTweet, tweetInitialTweet } from "./publish-data.js";
 import { saveData } from "./save-data.js";
 
-let books, initialTweetId, eventP
+let books, initialTweetId, eventP, tweetId
 
 describe("publish data", ()=>{
     before(async()=> {
@@ -27,8 +27,12 @@ describe("publish data", ()=>{
         expect(initialTweetId).to.be.a('string')
     })
     it("must tweet 1 book for testing", async()=>{
-        const tweetId = await replyTweet(initialTweetId, books[0])
-        console.log(tweetId)
+        tweetId = await replyTweet(initialTweetId, books[0])
         expect(tweetId).to.be.a("string")
+    })
+    it("should delete tested tweets", async()=>{
+        const res = await deleteTweet(initialTweetId)
+        await deleteTweet(tweetId)
+        expect(res).to.haveOwnProperty('id_str', initialTweetId)
     })
 })
