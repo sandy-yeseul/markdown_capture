@@ -1,13 +1,11 @@
 import Twitter from 'twitter';
 import {config} from 'dotenv';
-import { markdownDb } from '../data-handler/db-handler.js';
 config();
 
 export {
     getTwitter,
-    getBooksFromDb,
     tweetInitialTweet,
-    tweetAllBooks
+    replyTweet
 }
 
 function getTwitter(){
@@ -20,13 +18,6 @@ function getTwitter(){
         })
     } catch (err) {
         console.log(err);
-    }
-}
-function getBooksFromDb(eventPeriod){
-    try {
-        return markdownDb.findBooks(eventPeriod);
-    } catch (err) {
-        console.log(err)
     }
 }
 async function tweetInitialTweet(eventPeriod){
@@ -43,19 +34,7 @@ async function tweetInitialTweet(eventPeriod){
         console.log(err);
     }
 }
-async function tweetAllBooks({initialTweetId: replyId, books}){
-    try {
-        const booksId = [replyId];
-        for(const book of books){
-            var replyId = await replyTweet({replyId, book})
-            booksId[booksId.length] = replyId
-        }
-        return booksId;
-    } catch (err) {
-        console.log(err)
-    }
-}
-async function replyTweet({replyId, book}){
+async function replyTweet(replyId, book){
     try {
         const tweetStr = `${book.title}\n${book.author}\n${book.salePrice}\n${book.link}`,
         twitter = getTwitter(),
@@ -64,4 +43,7 @@ async function replyTweet({replyId, book}){
     } catch (err) {
         console.log(err)
     }
+}
+async function deleteTweet(tweetId){
+    await twitter.post(`statuses/destroy/${tweetId}`)
 }
