@@ -23,26 +23,55 @@ function buildMarkdownDB(makeDb){
         getMarkdownDb,
         insertManyBooks,
         findBooks,
-        deleteBooksByEventPeriod
+        deleteBooksByEventPeriod,
+        updateTweetId
     })
     async function getMarkdownDb(){
-        const db = await makeDb();
-        return await db.collection('markdown');
+        try {
+            const db = await makeDb();
+            return await db.collection('markdown');
+        } catch (err) {
+            console.log(err)
+        }
     }
     async function insertManyBooks(books){
-        const db = await getMarkdownDb();
-        const {insertedCount} = await db.insertMany(books);
-        return insertedCount;
+        try {
+            const db = await getMarkdownDb();
+            const {insertedCount} = await db.insertMany(books);
+            return insertedCount;
+        } catch (err) {
+            console.log(err)
+        }
     }
     async function findBooks(eventPeriod){
-        const db = await getMarkdownDb();
-        const query = {eventPeriod};
-        const cursor = db.find(query);
-        return db.find(query).toArray();
+        try {
+            const db = await getMarkdownDb();
+            const query = {eventPeriod};
+            const cursor = db.find(query);
+            return db.find(query).toArray();
+        } catch (err) {
+            console.log(err)
+        }
     }
     async function deleteBooksByEventPeriod(eventPeriod){
-        const db = await getMarkdownDb(),
-        query = {eventPeriod}
-        return db.deleteMany(query)
+        try {
+            const db = await getMarkdownDb(),
+            query = {eventPeriod}
+            return db.deleteMany(query)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    async function updateTweetId(_id, tweetId){
+        try {
+            const db = await getMarkdownDb(),
+            query = {_id},
+            update = {$set: {tweetId}},
+            option = {returnDocument: "after"},
+            {value} = await db.findOneAndUpdate(query, update, option)
+            return value;
+        } catch (error) {
+            
+        }
     }
 }

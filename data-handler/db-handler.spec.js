@@ -1,13 +1,14 @@
 import { expect } from "chai";
 import { markdownDb } from "./db-handler.js"
 
-const eventPeriod = Date.now()
-const docs = [
+const eventPeriod = Date.now(),
+tweetId = Date.now().toString(),
+docs = [
     {
-        title: "title", author: "author", eventPeriod
+       _id: 0, title: "title", author: "author", eventPeriod
     }, 
     {
-        title: "author", author: "auth", eventPeriod
+      _id: 1,  title: "author", author: "auth", eventPeriod
     }]
 describe("mongo db handling", ()=>{
     it("must build db", async()=>{
@@ -22,6 +23,10 @@ describe("mongo db handling", ()=>{
     it("must find all books given period", async()=>{
         const books = await markdownDb.findBooks(eventPeriod);
         expect(books).to.be.lengthOf(2);
+    })
+    it("must update tweet id for one book", async()=>{
+        const updated = await markdownDb.updateTweetId(docs[0]._id, tweetId)
+        expect(updated).to.haveOwnProperty("tweetId", tweetId)
     })
     it('must delete all books by event period', async()=>{
         await markdownDb.deleteBooksByEventPeriod(eventPeriod);
