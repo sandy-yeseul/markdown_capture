@@ -36,16 +36,9 @@ function buildMarkdownDB(makeDb){
     }
     async function findBooks(eventPeriod){
         const db = await getMarkdownDb();
-        const query = {eventPeriod: eventPeriod};
+        const query = {eventPeriod};
         const cursor = db.find(query);
-        if((await cursor.count()) === 0){
-            console.log("no document found");
-            return null;
-        } else {
-            const arr = [];
-            await cursor.forEach(item => arr.push(item));
-            return arr;
-        }
+        return db.find(query).toArray();
     }
     async function deleteBooksByEventPeriod(eventPeriod){
         const db = await getMarkdownDb(),

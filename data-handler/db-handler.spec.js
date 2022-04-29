@@ -1,7 +1,14 @@
 import { expect } from "chai";
-import { getBooks } from "../use-case/get-data.js";
 import { markdownDb } from "./db-handler.js"
 
+const eventPeriod = Date.now()
+const docs = [
+    {
+        title: "title", author: "author", eventPeriod
+    }, 
+    {
+        title: "author", author: "auth", eventPeriod
+    }]
 describe("mongo db handling", ()=>{
     it("must build db", async()=>{
         const db = await markdownDb.getMarkdownDb();
@@ -9,16 +16,16 @@ describe("mongo db handling", ()=>{
         expect(db.s.namespace).to.have.property('collection', collection)
     })
     it("must insert all books", async()=>{
-        const docs = [{title: "title", author: "author"}, {title: "author", author: "auth"}]
         const insertedCount = await markdownDb.insertManyBooks(docs);
         expect(insertedCount).to.be.greaterThanOrEqual(2);
     })
     it("must find all books given period", async()=>{
-        const eventPeriod = "2021년 10월 22일(금) ~ 10월 31일(일)"
         const books = await markdownDb.findBooks(eventPeriod);
-        expect(books).to.be.null;
+        expect(books).to.be.lengthOf(2);
     })
-    it("must return null if no book found", async()=>{
-        
+    it('must delete all books by event period', async()=>{
+        await markdownDb.deleteBooksByEventPeriod(eventPeriod);
+        const books = await markdownDb.findBooks(eventPeriod);
+        expect(books).to.be.empty;
     })
 })
