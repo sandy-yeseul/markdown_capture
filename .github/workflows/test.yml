@@ -5,16 +5,18 @@ on:
     # 5:30 & 17:30
     # - cron:  '30 5,17 * * *'
     # 10분마다... 뭔가 문법이 다른데ㅣ..
-    - cron: '*/10 * * * *'
+    - cron: '*/2 * * * *'
     # 2 번째 cron은 skip 하라는 뜻 같기도 하고?
     # 그냥 multiple 같기도 하고...
 jobs:
   test_schedule:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Check out repository code
+        uses: actions/checkout@v2
       
-      - uses: actions/setup-node@v2
+      - name: Set up Node.js 14
+        uses: actions/setup-node@v2
         with:
           node-version: "14"
 
