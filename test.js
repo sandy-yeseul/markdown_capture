@@ -1,4 +1,4 @@
-import { getTwitter } from "./use-case/publish-data";
+import { getTwitter } from "./use-case/publish-data.js";
 
 (async()=>{
     const twitter = getTwitter();
