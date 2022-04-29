@@ -1,26 +1,17 @@
-name: test
-on:
-  schedule:
-    # * is a special character in YAML so you have to quote this string
-    # 5:30 & 17:30
-    # - cron:  '30 5,17 * * *'
-    # 10분마다... 뭔가 문법이 다른데ㅣ..
-    - cron: '*/2 * * * *'
-    # 2 번째 cron은 skip 하라는 뜻 같기도 하고?
-    # 그냥 multiple 같기도 하고...
+name: GitHub Actions Demo
+on: [push]
 jobs:
-  test_schedule:
+  Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - name: Check out repository code
         uses: actions/checkout@v2
-      
-      - name: Set up Node.js 14
-        uses: actions/setup-node@v2
-        with:
-          node-version: "14"
-
-      - run: npm install
-      - run: npm install -g mocha
-      - run: npm install -g chai
-      - run: npm run schedule
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      - run: echo "🍏 This job's status is ${{ job.status }}."
