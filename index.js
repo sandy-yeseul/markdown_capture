@@ -6,7 +6,11 @@ import { saveData } from './use-case/save-data.js'
 async function runScript() {
   try {
     console.log(new Date().toLocaleString())
-    const {eventPeriod: eventP, markdownBookList} = await getBooks();
+    const scrapedData = await getBooks();
+
+    if(scrapedData === false) return;
+
+    const {markdownBookList, eventPeriod: eventP} = scrapedData;
 
     const eventPeriod = eventP.split(': ')[1]
     console.log(eventPeriod)

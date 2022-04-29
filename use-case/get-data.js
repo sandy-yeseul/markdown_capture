@@ -1,6 +1,14 @@
 import puppeteer from "puppeteer";
 
-export {getBooks, openPage, gotToEventPage, openMarkdownEventPage, getEventPeriod, getMarkdownBooks}
+export {
+  getBooks,
+  openPage,
+  gotToEventPage,
+  openMarkdownEventPage,
+  getEventPeriod,
+  getMarkdownBooks,
+  checkMarkdownEvent,
+};
 
 async function getBooks(){
     try {
@@ -8,6 +16,10 @@ async function getBooks(){
         const page = await browser.newPage();
 
         await gotToEventPage(page);
+
+        const hasEvent = await checkMarkdownEvent(page);
+        if(hasEvent === false) return false;
+
         await openMarkdownEventPage(page);
         const eventPeriod = await getEventPeriod(page);
         const markdownBookList = await getMarkdownBooks(page);
@@ -76,4 +88,19 @@ async function getMarkdownBooks(page){
         return books;
     })
     return markdownListEl;
+}
+async function checkMarkdownEvent(page){
+    try {
+        const eventDescriptionClassSelector = ".descript_body";
+        const eventName = "마크다운"
+        const hasEvent = await $eval(eventDescriptionClassSelector, 
+            (descElems, eventName)=>
+                descElems.map(descElem => {
+                    if(descElem.textContent.includes(eventName)) return true;
+                }), eventName
+        )
+        return hasEvent.filter(item => item).length > 0 ? true : false
+    } catch (err) {
+        console.log(err)
+    }
 }
