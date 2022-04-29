@@ -24,7 +24,8 @@ function buildMarkdownDB(makeDb){
         insertManyBooks,
         findBooks,
         deleteBooksByEventPeriod,
-        updateTweetId
+        updateTweetId,
+        findOneBookWithEventPeriod
     })
     async function getMarkdownDb(){
         try {
@@ -70,8 +71,17 @@ function buildMarkdownDB(makeDb){
             option = {returnDocument: "after"},
             {value} = await db.findOneAndUpdate(query, update, option)
             return value;
-        } catch (error) {
-            
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    async function findOneBookWithEventPeriod(eventPeriod){
+        try {
+            const db = await getMarkdownDb(),
+            query = {eventPeriod}
+            return db.findOne(query)
+        } catch (err) {
+            console.log(err)
         }
     }
 }

@@ -24,6 +24,10 @@ describe("mongo db handling", ()=>{
         const books = await markdownDb.findBooks(eventPeriod);
         expect(books).to.be.lengthOf(2);
     })
+    it('must find any one book with eventPeriod', async()=>{
+        const book = await markdownDb.findOneBookWithEventPeriod(eventPeriod);
+        expect(book).to.haveOwnProperty('eventPeriod', eventPeriod)
+    })
     it("must update tweet id for one book", async()=>{
         const updated = await markdownDb.updateTweetId(docs[0]._id, tweetId)
         expect(updated).to.haveOwnProperty("tweetId", tweetId)
