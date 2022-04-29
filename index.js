@@ -1,33 +1,38 @@
-// import { getBookList } from "./scraper/scraper.js";
-// import { sendIntialTweet, replyTweet } from "./twitter/tweet.js";
+import { markdownDb } from './data-handler/db-handler.js';
+import { getBooks } from './use-case/get-data.js';
+import { replyTweet, tweetInitialTweet } from './use-case/publish-data.js';
+import { saveData } from './use-case/save-data.js'
 
-// async function runScript() {
-//   let page = 0;
-//   let isContinued = true;
-//   const period = `2021.08.23.(월) 07:00 ~ 2021.08.31.(화) 23:59`;
-//   try {
-//     var replyId = await sendIntialTweet(period);
-//     while (isContinued) {
-//       const books = await getBookList(page);
-//       if(!books) {
-//           isContinued = false;
-//           console.log("DONE");
-//           break;
-//         };
-//       console.log(books);
-//       for (var i = 0; i < books.length; i++) {
-//         var replyId = await replyTweet(replyId, books[i]);
-//       }
-//       page++;
-//     }
-//     console.log("Loop is done")
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-// runScript();
+async function runScript() {
+  try {
+    console.log(new Date().toLocaleString())
+    const {eventPeriod: eventP, markdownBookList} = await getBooks();
 
-// 20일부터 30일까지 하루 몇번씩? 돌리기
-// 돌릴때 mongod에서 찾아봐서 이번달 날짜가 있을 경우 (쿼리 어떻게 하지... 한 10일 이내로?) skip하기
-// 아닐 경우 scrape -> mongo 저장 -> twitter publish 하기
-// 근데 만약 등록 같은 것을 하려면 역시 express 돌려야 하나? 아닌데...
+    const eventPeriod = eventP.split(': ')[1]
+    console.log(eventPeriod)
+    console.log(new Date().toLocaleString())
+
+    const hasBook = await markdownDb.findOneBookWithEventPeriod(eventPeriod)
+    if(hasBook !== null && hasBook !== undefined) return;
+    console.log(new Date().toLocaleString() + 'done finding any book(아 혹시 return되나?')
+
+    await saveData(markdownBookList, eventP);
+    console.log(new Date().toLocaleString() +'done saving')
+
+    let replyId = await tweetInitialTweet(eventPeriod);
+
+    const books = await markdownDb.findBooks(eventPeriod);
+    console.log(new Date().toLocaleString() +'done initial tweet')
+
+    for(let i = 0; i<3; i++){
+        const book = books[i]
+        console.log(replyId)
+        replyId = await replyTweet(replyId, book);
+        await markdownDb.updateTweetId(book._id, replyId)
+    }
+    console.log(new Date().toLocaleString())
+  } catch (err) {
+    console.log(err);
+  }
+}
+runScript();
