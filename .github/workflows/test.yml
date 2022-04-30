@@ -15,4 +15,6 @@ jobs:
           node-version: "14"
 
       - run: npm install
-      - run: npm run schedule
+
+      - name: "run npm schedule"
+        run: echo ${{ env.TWITTER_CONSUMER_KEY }}
