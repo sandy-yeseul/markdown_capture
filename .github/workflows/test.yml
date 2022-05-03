@@ -17,4 +17,4 @@ jobs:
       - run: npm install
 
       - name: "run npm schedule"
-        run: npm schedule
+        run: npm run schedule
