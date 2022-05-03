@@ -18,7 +18,10 @@ async function getBooks(){
         await gotToEventPage(page);
 
         const hasEvent = await checkMarkdownEvent(page);
-        if(hasEvent === false) return false;
+        if(hasEvent === false) {
+            browser.close();
+            return false;
+        }
 
         await openMarkdownEventPage(page);
         const eventPeriod = await getEventPeriod(page);
