@@ -114,7 +114,7 @@ async function checkMarkdownEvent(page){
     try {
         const eventDescriptionClassSelector = ".descript_body";
         const eventName = "마크다운"
-        const hasEvent = await $eval(eventDescriptionClassSelector, 
+        const hasEvent = await page.$$eval(eventDescriptionClassSelector, 
             (descElems, eventName)=>
                 descElems.map(descElem => {
                     if(descElem.textContent.includes(eventName)) return true;

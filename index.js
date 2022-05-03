@@ -30,6 +30,8 @@ async function runScript() {
     }
   } catch (err) {
     console.log(err);
+  } finally {
+    console.log("DONE")
   }
 }
 runScript();
