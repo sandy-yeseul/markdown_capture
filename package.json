@@ -5,11 +5,10 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "node index.js",
-    "start": "nodemon index.js",
+    "start": "node index.js",
     "test": "mocha --recursive ./**/*.spec.js",
     "debug": "mocha --recursive ./**/save-data.spec.js --timeout 30000",
-    "schedule": "node test.js"
+    "schedule": "node index.js"
   },
   "author": "",
   "license": "ISC",
