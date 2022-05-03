@@ -17,6 +17,4 @@ jobs:
       - run: npm install
 
       - name: "run npm schedule"
-        run: echo ${{ secrets.TWITTER_CONSUMER_KEY }}
-      
-      - run: echo "hi"
+        run: npm schedule
