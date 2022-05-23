@@ -7,14 +7,20 @@ async function runScript() {
   try {
     const scrapedData = await getBooks();
 
-    if(scrapedData === false) return;
+    if(scrapedData === false) {
+      console.log("scrapp 된 것 없음")
+      return;
+    }
 
     const {markdownBookList, eventPeriod: eventP} = scrapedData;
 
     const eventPeriod = eventP.split(': ')[1]
 
     const hasBook = await markdownDb.findOneBookWithEventPeriod(eventPeriod)
-    if(hasBook !== null && hasBook !== undefined) return;
+    if(hasBook !== null && hasBook !== undefined) {
+      console.log(`${eventP} 이미 있음`)
+      return;
+    }
 
     await saveData(markdownBookList, eventP);
 
